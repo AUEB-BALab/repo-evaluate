@@ -88,10 +88,51 @@ def get_repo_addresses(file_location):
     return contents.splitlines()
 
 
+def validate_groovy_build(param):
+    # TODO
+    return True
+
+
+def validate_kotlin_build(param):
+    # TODO
+    return True
+
+
 if __name__ == '__main__':
     repos = get_repo_addresses("resources/GitHub Repositories.txt")
-
+    grades = {}
     READMES = get_readmes(repos)
+    print(len(READMES["AnnaMariaDimareli/Java2"]))
     BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
-    print(BUILD_TOOLS)
     print(validate_maven_pom(str(BUILD_FILES["T821362/T821362"]), "./resources/maven-4.0.0.xsd"))
+    # This loops will determine the grades
+    for repo in repos:
+        grades[repo] = 0
+        # Evaluate README
+        if READMES[repo] is not None:
+            grades[repo] += README
+
+            # Evaluate big README extra credit
+            if len(READMES[repo]) > BIG_README_SIZE:
+                grades[repo] += BIG_README
+
+        # Evaluate package
+        if BUILD_TOOLS is not None:  # does a build file exist?
+            # We use the percent of the file existing times the points packaging gets
+            grades[repo] += EXISTENCE_OF_BUILD_FILE * PACKAGING
+
+            match BUILD_TOOLS[repo]:
+                case "Maven":
+                    if validate_maven_pom(str(BUILD_FILES[repo]), "./resources/maven-4.0.0.xsd"):
+                        # We use the percent of the file being well-formed times the points packaging gets
+                        grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
+                case "Gradle - Groovy":
+                    if validate_groovy_build(BUILD_FILES[repo]):
+                        # We use the percent of the file being well-formed times the points packaging gets
+                        grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
+                case "Gradle - Kotlin":
+                    if validate_kotlin_build(BUILD_FILES[repo]):
+                        # We use the percent of the file being well-formed times the points packaging gets
+                        grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
+
+    print(grades)
