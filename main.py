@@ -1,4 +1,7 @@
 import os
+
+from lxml.etree import XMLSyntaxError
+
 import constants
 from github import Github
 from github.GithubException import UnknownObjectException
@@ -70,16 +73,25 @@ def get_readmes(repo_addresses):
 def validate_maven_pom(xml_string: str, maven_xsd_path: str) -> bool:
     xmlschema_doc = etree.parse(maven_xsd_path)
     xmlschema = etree.XMLSchema(xmlschema_doc)
-    xml_doc = etree.fromstring(xml_string)
-    result = xmlschema.validate(xml_doc)
+    try:
+        xml_doc = etree.fromstring(xml_string)
+        result = xmlschema.validate(xml_doc)
+    except XMLSyntaxError:
+        result = False
     return result
 
 
-if __name__ == '__main__':
-    repos = ["AnnaMariaDimareli/Java2", "vincentbrison/vb-android-app-quality", "dspinellis/alexandria3k",
-             "T821362/T821362", "MichaelM97/Gradle-Kotlin-DSL-Android-Example"]
+# Gets GutHub repositories from a file. Returns them a a list of strings
+def get_repo_addresses(file_location):
+    with open(file_location) as fp:
+        contents = fp.read()
+    return contents.splitlines()
 
-    # READMES = get_readmes(repos)
-    # BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
-    # print(BUILD_TOOLS)
-    # print(validate_maven_pom(str(BUILD_FILES["AnnaMariaDimareli/Java2"]), "./resources/maven-4.0.0.xsd"))
+
+if __name__ == '__main__':
+    repos = get_repo_addresses("resources/GitHub Repositories.txt")
+
+    READMES = get_readmes(repos)
+    BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
+    print(BUILD_TOOLS)
+    print(validate_maven_pom(str(BUILD_FILES["T821362/T821362"]), "./resources/maven-4.0.0.xsd"))
