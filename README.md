@@ -3,10 +3,10 @@ This is a Python application which aims at partly grading the semester assignmen
 
 ### Features
 #### It will grade the following
-* Test Class existence
-* Test code coverage
-* Packaging file existence
-* Packaging file language formation
+* Test Classes existence
+* Test codes coverage of Classes 
+* Packaging file existence (•)
+* Packaging file language formation (•)
 * Commenting
 * Code quality
 
@@ -16,6 +16,8 @@ This is a Python application which aims at partly grading the semester assignmen
 #### It will give grade bonuses for:
 * LICENCE file existence
 * CONTRIBUTING file existence 
-* A through README file
-* A README file which activley uses Markdown
+* A thorough README file (•)
+* A README file which actively uses Markdown
 * Use of GitHub features (Issues, Actions, Wiki , Projects etc)
+
+_tasks with (•) are done or partly done_
