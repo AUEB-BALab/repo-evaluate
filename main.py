@@ -40,8 +40,8 @@ def get_a_build_file(repo_address):
 
 
 # Gets build files of repos given as a list. Returns a tuple with the build_file dictionary and a build_tool Dictionary
-# The build_file dictionary connects a repo adress with its build file
-# The build_tool dictionary connects a repo adress with its build tool
+# The build_file dictionary connects a repo address with its build file
+# The build_tool dictionary connects a repo address with its build tool
 def get_build_files(repo_addresses):
     build_files = {}
     build_tool = {}
@@ -81,7 +81,7 @@ def validate_maven_pom(xml_string: str, maven_xsd_path: str) -> bool:
     return result
 
 
-# Gets GutHub repositories from a file. Returns them a a list of strings
+# Gets GutHub repositories from a file. Returns them a list of strings
 def get_repo_addresses(file_location):
     with open(file_location) as fp:
         contents = fp.read()
