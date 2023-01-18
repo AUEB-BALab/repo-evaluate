@@ -2,7 +2,7 @@ import os
 
 from lxml.etree import XMLSyntaxError
 
-import constants
+from constants import *
 from github import Github
 from github.GithubException import UnknownObjectException
 from lxml import etree
