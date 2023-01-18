@@ -4,10 +4,9 @@ This module defines some constant names. Thet are Percentiles of grades and thre
 
 # Percentiles of each assignment
 CHECKSTYLE = 0.15
-TESTING = 0.2
-COVERAGE = 0.2
+TESTING = 0.25
 PACKAGING = 0.3
-README = 0.1
+README = 0.2
 COMMENTING = round(1 - (CHECKSTYLE + TESTING + COVERAGE + PACKAGING), 2)
 
 # Internal Percentiles
@@ -18,7 +17,11 @@ FILE_IS_WELL_FORMED = 1 - EXISTENCE_OF_BUILD_FILE
 
 # Comments #
 PERCENTAGE_LINES_PER_COMMENT = 0.5
-PERCENTAGE_LINES_PER_METHOD = 1 - PERCENTAGE_LINES_PER_COMMENT
+PERCENTAGE_LINES_PER_METHOD = round(1 - PERCENTAGE_LINES_PER_COMMENT, 2)
+
+# Testing #
+TESTING_EXISTENCE = 0.3
+TESTING_COVERAGE = round(1 - TESTING_EXISTENCE, 2)
 
 # Internal Thresholds
 
