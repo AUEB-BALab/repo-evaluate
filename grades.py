@@ -16,7 +16,7 @@ def initialise_grade_dictionary(github_repositories):
     grade_dict = {}
     for repository in github_repositories:
         grade_dict[repository] = {}
-        for module in MODULES:
+        for module in FINAL_MODULES:
             grade_dict[repository] = grade_update(grade_dict[repository], module, 0)
 
     return grade_dict
@@ -30,13 +30,37 @@ def finalise_grades(grade_module_dict):
 
 
 # Creates a grade file. File contains all grades and a total.
-# A better layout is needed FIXME
-def create_grade_file(grade_dict, repo):
+# In a clean layout to make it clear how it was graded
+def create_grade_file(grade_dict, repo, build):
     total = 0
-    for module in MODULES:
+    for module in FINAL_MODULES:
         total += grade_dict[repo][module]
-    total = round(total, 2)
+    total = round(total, 3)
     with open(f"./results/{repo}/results.txt", 'w+') as fp:
-        fp.write(str(grade_dict[repo]))
-        fp.write("\n Total Grade:")
-        fp.write(str(total))
+
+        fp.write("Grades:")
+        for module in TOP_MODULES:
+            fp.write(f"\n{module}:{grade_dict[repo][module]}")
+
+        fp.write(f"\nPACKAGING was evaluated from:\n"
+                 f" -BUILD_EXISTS:{grade_dict[repo]['BUILD_EXISTS']}\n"
+                 f" -BUILD_FILE_OK:{grade_dict[repo]['BUILD_FILE_OK']}")
+
+        fp.write("\n\nBonuses:")
+        for module in BONUS_MODULES:
+            fp.write(f"\n{module}:{grade_dict[repo][module]}")
+
+        # Bonuses might be over 10
+        if total > 10:
+            total = 10
+
+        fp.write(f"\n\nTotal Grade:{str(total)}")
+
+        if build != "Maven" and build is not None:
+            fp.write(
+                f"\n\n {build} was used to build this project. \n"
+                "This might mean that the build file is incorrectly flagged as wrong\n"
+                "(BUILD_FILE_OK:0). If you think this is the case please inform me!")
+        elif build is None:
+            fp.write(f"\n\nNOTHING was used to build this project. \n"
+                     "If you think this is wrong please inform me!")
