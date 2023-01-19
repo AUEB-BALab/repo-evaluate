@@ -42,7 +42,7 @@ def get_a_build_file(repo_address):
 # Gets build files of repos given as a list. Returns a tuple with the build_file dictionary and a build_tool Dictionary
 # The build_file dictionary connects a repo address with its build file
 # The build_tool dictionary connects a repo address with its build tool
-def get_build_files(repo_addresses):
+def get_build_files(repo_addresses) -> (str, str):
     build_files = {}
     build_tool = {}
     for address in repo_addresses:
@@ -134,5 +134,8 @@ if __name__ == '__main__':
                     if validate_kotlin_build(BUILD_FILES[repo]):
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
+        grades[repo] = round(grades[repo], 2)
+        if grades[repo] > 10:
+            grades[repo] = 10
 
     print(grades)
