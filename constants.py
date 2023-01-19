@@ -1,7 +1,7 @@
 """
 This module defines some constant names. These are Percentiles of grades and threshold for different checks
 """
-MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK','LICENCE_FILE']
+MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK', 'LICENCE_FILE']
 # Percentiles of each assignment
 CHECKSTYLE = 0.15
 TESTING = 0.25
@@ -44,4 +44,4 @@ GITHUB_FEATURES = 0.1  # Issues, actions, wiki , projects
 
 # Bonus Thresholds
 BIG_README_SIZE = 1500
-FACTOR_README_MARKDOWN = 1.08 # has to be X times bigger that raw data to be considered good
+FACTOR_README_MARKDOWN = 1.08  # has to be X times bigger that raw data to be considered good
