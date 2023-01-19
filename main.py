@@ -145,6 +145,9 @@ def validate_groovy_build(build_file_string, repo):
     # We then try to run a gradle task with that build
     result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
     # The only thing we care about is if the gradle task succeeded
+    if result.returncode != 0:
+        print(repo)
+        print(result.stderr.decode("utf-8"))
     return result.returncode == 0
 
 
@@ -156,6 +159,9 @@ def validate_kotlin_build(build_file_string, repo):
     # We then try to run a gradle task with that build
     result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
     # The only thing we care about is if the gradle task succeeded
+    if result.returncode != 0:
+        print(repo)
+        print(result.stderr.decode("utf-8"))
     return result.returncode == 0
 
 
