@@ -2,4 +2,6 @@ AnnaMariaDimareli/Java2
 vincentbrison/vb-android-app-quality
 dspinellis/alexandria3k
 T821362/T821362
-MichaelM97/Gradle-Kotlin-DSL-Android-Example
+StefanKourou/ProgrammingII
+EleniVasilaki/Social-Network
+dimitriospapathanasiou/SocialMediaApplication
