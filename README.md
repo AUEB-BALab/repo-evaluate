@@ -20,4 +20,7 @@ This is a Python application which aims at partly grading the semester assignmen
 * A README file which actively uses Markdown (•)
 * Use of GitHub features (Issues, Actions, Wiki , Projects etc)
 
+#### Gradle validation 
+- Gradle validation doesn't work 100% of the time. When a Gradle build fails standard error is printed to sort manually
+
 _tasks with (•) are done_
