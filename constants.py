@@ -34,7 +34,7 @@ LINES_PER_COMMENT = 10
 METHODS_PER_COMMENT = 1
 
 # TODO check if this is something we would like. Otherwise flag for removal.
-#   This could change year ot year to not be taken advantage of.
+#   This could change year on year to not be taken advantage of.
 # Bonus points out of 10 for
 LICENCE_FILE = 0.1
 CONTRIBUTING_FILE = 0.1
