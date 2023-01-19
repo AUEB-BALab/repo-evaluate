@@ -90,7 +90,7 @@ def get_raw_readmes(repo_addresses):
     return readmes
 
 
-# Validates if a given xml follows the Maven xsd
+# Validates if a given xml follows the Maven XSD
 def validate_maven_pom(xml_string: str, maven_xsd_path: str) -> bool:
     xmlschema_doc = etree.parse(maven_xsd_path)
     xmlschema = etree.XMLSchema(xmlschema_doc)
@@ -102,14 +102,14 @@ def validate_maven_pom(xml_string: str, maven_xsd_path: str) -> bool:
     return result
 
 
-# Gets GutHub repositories from a file. Returns them a list of strings
+# Gets GitHub repositories from a file. Returns them as a list of strings
 def get_repo_addresses(file_location):
     with open(file_location) as fp:
         contents = fp.read()
     return contents.splitlines()
 
 
-# Takes a string and a Path. If the path doesn't exist it creates it. Then it saves the string to file
+# Takes a string and a Path. If the path doesn't exist it creates it. Then it saves the string to the path file
 def save_string_to_file(text, file_path):
     dir = os.path.dirname(file_path)
     if not os.path.exists(dir):
@@ -120,10 +120,10 @@ def save_string_to_file(text, file_path):
 
 def get_current_path():
     current_path = os.path.abspath(__file__)
-    # The program name is main.py which is 7 characters and the last 2 backslashes we don't need we remove them
+    # The program name is main.py which is 9 characters w/ the last 2 backslashes. We don't want them
     current_path = current_path.strip()[:-8]
-    # The backslashes are literals, so we don't want them
-    # Also, the gits are defined with forward slashes, so we need to keep consistency
+    # The backslashes are literals, so we prefer front slashes
+    # Also, the gits are defined with forward slashes, so we want to keep consistency
     current_path = current_path.replace("\\", '/')
     return current_path
 
@@ -145,6 +145,7 @@ def validate_groovy_build(build_file_string, repo):
     save_string_to_file(build_file_string, f"{working_dir}/resources/Gradle Builds/{repo}/build.gradle")
     # We then try to run a gradle task with that build
     result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
+    # The only thing we care about is if the gradle task succeeded
     return result.returncode == 0
 
 
@@ -155,6 +156,7 @@ def validate_kotlin_build(build_file_string, repo):
     save_string_to_file(build_file_string, f"{working_dir}/resources/Gradle Builds/{repo}/build.gradle.kts")
     # We then try to run a gradle task with that build
     result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
+    # The only thing we care about is if the gradle task succeeded
     return result.returncode == 0
 
 
@@ -164,7 +166,7 @@ if __name__ == '__main__':
     READMES = get_decoded_readmes(repos)
     RAW_READMES = get_raw_readmes(repos)
     BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
-    # This loops will determine the grades
+    # This loop will determine all the Repos in GitHub Repositories.txt grades
     for repo in repos:
         grades[repo] = 0
         # Evaluate README
