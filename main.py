@@ -6,7 +6,7 @@ from constants import *
 from github import Github
 from github.GithubException import UnknownObjectException
 from lxml import etree
-from bs4 import BeautifulSoup
+import re
 
 g = Github("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")
 
@@ -56,13 +56,34 @@ def get_build_files(repo_addresses) -> (str, str):
     return build_files, build_tool
 
 
-# returns multiple GitHub repository readmes in a dictionary
-def get_readmes(repo_addresses):
+# returns multiple GitHub repository readmes in a dictionary. Data is decoded!
+def get_decoded_readmes(repo_addresses):
     readmes = {}
     for address in repo_addresses:
         repo = g.get_repo(address)
         try:
-            readme_contents = repo.get_readme().decoded_content.decode('utf-8')
+            readme_contents = repo.get_readme().decoded_content.decode('utf-8')  # decode to uts-8
+        except UnknownObjectException:
+            readme_contents = None
+        readmes[address] = readme_contents
+    return readmes
+
+
+# returns multiple GitHub repository readmes in a dictionary. Data is raw!
+def get_raw_readmes(repo_addresses):
+    readmes = {}
+    for address in repo_addresses:
+        repo = g.get_repo(address)
+        try:
+            readme_contents = repo.get_readme().decoded_content.decode()  # decode
+            # remove Markdown elements using regular expressions
+            readme_contents = re.sub(r'[#*_`]', '', readme_contents)
+            # remove Markdown links
+            readme_contents = re.sub(r'\[.*\]\(.*\)', '', readme_contents)
+            # remove Markdown images
+            readme_contents = re.sub(r'!\[.*\]\(.*\)', '', readme_contents)
+            # remove Markdown headings
+            readme_contents = re.sub(r'^#.*', '', readme_contents, flags=re.MULTILINE)
         except UnknownObjectException:
             readme_contents = None
         readmes[address] = readme_contents
@@ -140,7 +161,8 @@ def validate_kotlin_build(build_file_string, repo):
 if __name__ == '__main__':
     repos = get_repo_addresses("resources/GitHub Repositories.txt")
     grades = {}
-    READMES = get_readmes(repos)
+    READMES = get_decoded_readmes(repos)
+    RAW_READMES = get_raw_readmes(repos)
     BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
     # This loops will determine the grades
     for repo in repos:
@@ -152,6 +174,11 @@ if __name__ == '__main__':
             # Evaluate big README extra credit
             if len(READMES[repo]) > BIG_README_SIZE:
                 grades[repo] += BIG_README
+
+            # Evaluate README markdown usage for extra credit
+            if len(READMES[repo]) > FACTOR_README_MARKDOWN * len(RAW_READMES[repo]):
+                grades[repo] += README_USES_MARKDOWN
+                print(repo)
 
         # Evaluate package
         if BUILD_TOOLS is not None:  # does a build file exist?
@@ -172,6 +199,7 @@ if __name__ == '__main__':
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
         grades[repo] = round(grades[repo], 2)
+        # Grades with bonus might be bigger than 10
         if grades[repo] > 10:
             grades[repo] = 10
 
