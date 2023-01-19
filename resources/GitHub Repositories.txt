@@ -1,6 +1,4 @@
 AnnaMariaDimareli/Java2
-vincentbrison/vb-android-app-quality
-dspinellis/alexandria3k
 T821362/T821362
 StefanKourou/ProgrammingII
 EleniVasilaki/Social-Network
