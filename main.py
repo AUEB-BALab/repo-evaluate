@@ -177,49 +177,88 @@ def validate_kotlin_build(build_file_string, repo):
     return result.returncode == 0
 
 
+# Function takes the grade dictionary and updates it with the new grade added to a module
+def grade_update(current_grade_dict, module, grade):
+    current_grade_dict[module] = grade
+    return current_grade_dict
+
+
+# Function initialises the grade dictionary with all the module grades as 0
+# As new gradings are added the modules will be updated
+def initialise_grade_dictionairy(github_repositories):
+    grade_dict = {}
+    modules = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK']
+    for repository in github_repositories:
+        grade_dict[repository] = {}
+        for module in modules:
+            grade_dict[repository] = grade_update(grade_dict[repository], module, 0)
+
+    return grade_dict
+
+
+# Function calculates finalises grades
+#Some grades are combined so this function dose the combination
+def finalise_grades(grade_module_dict):
+    grade_module_dict['PACKAGING'] = EXISTENCE_OF_BUILD_FILE * grade_module_dict[
+        'BUILD_EXISTS'] + FILE_IS_WELL_FORMED * grade_module_dict['BUILD_FILE_OK']
+    return grade_module_dict
+
+# Creates a grade file. File contains all grades and a total.
+# A better layout is needed FIXME
+def create_grade_file(grade_dict, repo):
+    total = 0
+    for module in grade_dict[repo]:
+        total += grade_dict[repo][module]
+    total = round(total, 2)
+    with open(f"./results/{repo}/results.txt", 'w+') as fp:
+        fp.write(str(grade_dict[repo]))
+        fp.write("\n Total Grade:")
+        fp.write(str(total))
+
+
 if __name__ == '__main__':
     repos = get_repo_addresses("resources/GitHub Repositories.txt")
-    grades = {}
+    grades = initialise_grade_dictionairy(repos)
     READMES = get_decoded_readmes(repos)
     RAW_READMES = get_raw_readmes(repos)
     BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
     # This loop will determine all the Repos in GitHub Repositories.txt grades
     for repo in repos:
-        grades[repo] = 0
         # Evaluate README
         if READMES[repo] is not None:
-            grades[repo] += README
+            grades[repo] = grade_update(grades[repo], 'README', README)
 
             # Evaluate big README extra credit
             if len(READMES[repo]) > BIG_README_SIZE:
-                grades[repo] += BIG_README
+                grades[repo] = grade_update(grades[repo], 'BIG_README', BIG_README)
 
             # Evaluate README markdown usage for extra credit
             if len(READMES[repo]) > FACTOR_README_MARKDOWN * len(RAW_READMES[repo]):
-                grades[repo] += README_USES_MARKDOWN
+                grades[repo] = grade_update(grades[repo], 'README_USES_MARKDOWN', README_USES_MARKDOWN)
 
         # Evaluate package
         if BUILD_TOOLS is not None:  # does a build file exist?
             # We use the percent of the file existing times the points packaging gets
-            grades[repo] += EXISTENCE_OF_BUILD_FILE * PACKAGING
+            grades[repo] = grade_update(grades[repo], 'BUILD_EXISTS', EXISTENCE_OF_BUILD_FILE * PACKAGING)
 
             match BUILD_TOOLS[repo]:
                 case "Maven":
                     if validate_maven_pom(str(BUILD_FILES[repo]), "./resources/maven-4.0.0.xsd"):
                         # We use the percent of the file being well-formed times the points packaging gets
-                        grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
+                        grades[repo] = grade_update(grades[repo], 'BUILD_FILE_OK', FILE_IS_WELL_FORMED * PACKAGING)
                 case "Gradle - Groovy":
                     if validate_groovy_build(BUILD_FILES[repo], repo):
                         # We use the percent of the file being well-formed times the points packaging gets
-                        grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
+                        grades[repo] = grade_update(grades[repo], 'BUILD_FILE_OK', FILE_IS_WELL_FORMED * PACKAGING)
                 case "Gradle - Kotlin":
                     if validate_kotlin_build(BUILD_FILES[repo], repo):
                         # We use the percent of the file being well-formed times the points packaging gets
-                        grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
-        grades[repo] = round(grades[repo], 2)
-        # Grades with bonus might be bigger than 10
-        if grades[repo] > 10:
-            grades[repo] = 10
+                        grades[repo] = grade_update(grades[repo], 'BUILD_FILE_OK', FILE_IS_WELL_FORMED * PACKAGING)
+        grades[repo] = finalise_grades(grades[repo])
 
     for repo in repos:
-        print(f"The project {repo} gets a {grades[repo]}")
+        path = f"./results/{repo}"
+        if not os.path.exists(path):
+            print("YOOOoo")
+            os.makedirs(path)
+        create_grade_file(grades, repo)
