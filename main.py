@@ -64,4 +64,4 @@ if __name__ == '__main__':
         path = f"./results/{repo}"
         if not os.path.exists(path):
             os.makedirs(path)
-        create_grade_file(grades, repo)
+        create_grade_file(grades, repo, BUILD_TOOLS[repo])
