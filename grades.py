@@ -57,10 +57,12 @@ def create_grade_file(grade_dict, repo, build):
         fp.write(f"\n\nTotal Grade:{str(total)}")
 
         if build != "Maven" and build is not None:
+            # Warning if build is Gradle as issues with validation may ocure
             fp.write(
                 f"\n\n {build} was used to build this project. \n"
                 "This might mean that the build file is incorrectly flagged as wrong\n"
                 "(BUILD_FILE_OK:0). If you think this is the case please inform me!")
         elif build is None:
+            # Warning if no build was detected as it might be ant or something else (renamed POM or build.gradle)
             fp.write(f"\n\nNOTHING was used to build this project. \n"
                      "If you think this is wrong please inform me!")
