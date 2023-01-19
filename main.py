@@ -8,8 +8,7 @@ from github.GithubException import UnknownObjectException
 from lxml import etree
 import re
 
-g = Github("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")
-
+g = Github(os.environ['GITHUB_GPG_KEY'])
 
 # returns a GitHub build file
 def get_a_build_file(repo_address):
@@ -180,7 +179,6 @@ if __name__ == '__main__':
             # Evaluate README markdown usage for extra credit
             if len(READMES[repo]) > FACTOR_README_MARKDOWN * len(RAW_READMES[repo]):
                 grades[repo] += README_USES_MARKDOWN
-                print(repo)
 
         # Evaluate package
         if BUILD_TOOLS is not None:  # does a build file exist?
