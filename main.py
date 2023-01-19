@@ -41,7 +41,7 @@ if __name__ == '__main__':
         if LICENCE_FILES[repo] is not None:
             grades[repo] = grade_update(grades[repo], 'LICENCE_FILE', LICENCE_FILE)
         # Evaluate package
-        if BUILD_TOOLS is not None:  # does a build file exist?
+        if BUILD_TOOLS[repo] is not None:  # does a build file exist?
             # We use the percent of the file existing times the points packaging gets
             grades[repo] = grade_update(grades[repo], 'BUILD_EXISTS', EXISTENCE_OF_BUILD_FILE * PACKAGING)
 
