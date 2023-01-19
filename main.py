@@ -1,7 +1,7 @@
 import os
 
 from lxml.etree import XMLSyntaxError
-
+import subprocess
 from constants import *
 from github import Github
 from github.GithubException import UnknownObjectException
@@ -88,23 +88,60 @@ def get_repo_addresses(file_location):
     return contents.splitlines()
 
 
-def validate_groovy_build(param):
-    # TODO
-    return True
+# Takes a string and a Path. If the path dosent exist it creates it. Then it saves the string to file
+def save_string_to_file(text, file_path):
+    dir = os.path.dirname(file_path)
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    with open(file_path, "w") as f:
+        f.write(text)
 
 
-def validate_kotlin_build(param):
-    # TODO
-    return True
+def get_current_path():
+    current_path = os.path.abspath(__file__)
+    # The program name is main.py which is 7 characters and the last 2 backslashes we don't need we remove them
+    current_path = current_path.strip()[:-8]
+    # The backslashes are literals, so we don't want them
+    # Also, the gits are defined with forward slashes, so we need to keep consistency
+    current_path = current_path.replace("\\", '/')
+    return current_path
+
+
+# Runs a gradle task in the spesified path. the task is parced via the task argument
+def run_gradle_task(task, gradle_project_path):
+    # We structure the command
+    gradle_command = f"gradle {task} -p '{gradle_project_path}'"
+    # We send it to run via powershell and wait for an answer
+    result = subprocess.run(["powershell.exe", "-Command", gradle_command], stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    return result
+
+
+# Returns true if a groovy_build is valid
+def validate_groovy_build(build_file_string, repo):
+    working_dir = get_current_path()
+    # We save the Gradle file to a folder in our resources
+    save_string_to_file(build_file_string, f"{working_dir}/resources/Gradle Builds/{repo}/build.gradle")
+    # We then try to run a gradle task with that build
+    result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
+    return result.returncode == 0
+
+
+# Returns true if a kotlin_build is valid
+def validate_kotlin_build(build_file_string, repo):
+    working_dir = get_current_path()
+    # We save the Gradle file to a folder in our resources
+    save_string_to_file(build_file_string, f"{working_dir}/resources/Gradle Builds/{repo}/build.gradle.kts")
+    # We then try to run a gradle task with that build
+    result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
+    return result.returncode == 0
 
 
 if __name__ == '__main__':
     repos = get_repo_addresses("resources/GitHub Repositories.txt")
     grades = {}
     READMES = get_readmes(repos)
-    print(len(READMES["AnnaMariaDimareli/Java2"]))
     BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
-    print(validate_maven_pom(str(BUILD_FILES["T821362/T821362"]), "./resources/maven-4.0.0.xsd"))
     # This loops will determine the grades
     for repo in repos:
         grades[repo] = 0
@@ -127,11 +164,11 @@ if __name__ == '__main__':
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
                 case "Gradle - Groovy":
-                    if validate_groovy_build(BUILD_FILES[repo]):
+                    if validate_groovy_build(BUILD_FILES[repo], repo):
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
                 case "Gradle - Kotlin":
-                    if validate_kotlin_build(BUILD_FILES[repo]):
+                    if validate_kotlin_build(BUILD_FILES[repo], repo):
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] += FILE_IS_WELL_FORMED * PACKAGING
         grades[repo] = round(grades[repo], 2)
