@@ -9,6 +9,7 @@ from github.GithubException import UnknownObjectException
 g = Github(os.environ['GITHUB_GPG_KEY'])
 
 
+# Method gets licence file from git and decodes it
 def get_licence_files(repo_addresses):
     licence_files = {}
     for address in repo_addresses:
