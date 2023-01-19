@@ -10,31 +10,43 @@ import re
 
 g = Github(os.environ['GITHUB_GPG_KEY'])
 
-# returns a GitHub build file
+
+# Looks for a pom file everywhere in a repository as POM files were found to not bee in the top DIR
+def search_github_repo(file_name, repo):
+    # recursively searching all the directories
+    def search_directory(directory):
+        contents = repo.get_contents(directory)
+        for content in contents:
+            if content.type == "dir":
+                file_content = search_directory(content.path)
+                if file_content is not None:
+                    return file_content
+            elif content.name == file_name:
+                # get the contents of the file
+                file_content = repo.get_contents(content.path)
+                return file_content
+
+    return search_directory('')
+
+
 def get_a_build_file(repo_address):
     # Get a repo
     repo = g.get_repo(repo_address)
-    try:
-        # If the build is Maven this will not throw an exception
-        packaging_file = repo.get_contents("pom.xml")
+    # If the build is Maven this will not throw an exception
+    packaging_file = search_github_repo("pom.xml", repo)
+    if packaging_file is not None:
         packaging_type = "Maven"
-
-    except UnknownObjectException:  # build is not Maven
-        try:
-            # If the build is Gradle /w Groovy this will not throw an exception
-            packaging_file = repo.get_contents("build.gradle")
+    else:  # build is not Maven
+        packaging_file = search_github_repo("build.gradle", repo)
+        if packaging_file is not None:
             packaging_type = "Gradle - Groovy"
-
-        except UnknownObjectException:  # build is not Gradle /w Groovy or Maven
-            # If the build is Gradle /w Kotlin this will not throw an exception
-            try:
-                packaging_file = repo.get_contents("build.gradle.kts")
+        else:  # build is not Gradle /w Groovy or Maven
+            packaging_file = search_github_repo("build.gradle.kts", repo)
+            if packaging_file is not None:
                 packaging_type = "Gradle - Kotlin"
-
-            except UnknownObjectException:  # build is not Gradle or Maven
+            else:  # build is not Gradle or Maven
                 packaging_file = None
                 packaging_type = None
-
     return (packaging_file, packaging_type)
 
 
@@ -209,4 +221,5 @@ if __name__ == '__main__':
         if grades[repo] > 10:
             grades[repo] = 10
 
-    print(grades)
+    for repo in repos:
+        print(f"The project {repo} gets a {grades[repo]}")
