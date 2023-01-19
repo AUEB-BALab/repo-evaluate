@@ -187,27 +187,26 @@ def grade_update(current_grade_dict, module, grade):
 # As new gradings are added the modules will be updated
 def initialise_grade_dictionairy(github_repositories):
     grade_dict = {}
-    modules = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK']
     for repository in github_repositories:
         grade_dict[repository] = {}
-        for module in modules:
+        for module in MODULES:
             grade_dict[repository] = grade_update(grade_dict[repository], module, 0)
 
     return grade_dict
 
 
 # Function calculates finalises grades
-#Some grades are combined so this function dose the combination
+# Some grades are combined so this function dose the combination
 def finalise_grades(grade_module_dict):
-    grade_module_dict['PACKAGING'] = EXISTENCE_OF_BUILD_FILE * grade_module_dict[
-        'BUILD_EXISTS'] + FILE_IS_WELL_FORMED * grade_module_dict['BUILD_FILE_OK']
+    grade_module_dict['PACKAGING'] = grade_module_dict['BUILD_EXISTS'] + grade_module_dict['BUILD_FILE_OK']
     return grade_module_dict
+
 
 # Creates a grade file. File contains all grades and a total.
 # A better layout is needed FIXME
 def create_grade_file(grade_dict, repo):
     total = 0
-    for module in grade_dict[repo]:
+    for module in MODULES:
         total += grade_dict[repo][module]
     total = round(total, 2)
     with open(f"./results/{repo}/results.txt", 'w+') as fp:
@@ -216,11 +215,24 @@ def create_grade_file(grade_dict, repo):
         fp.write(str(total))
 
 
+def get_licence_files(repo_addresses):
+    licence_files = {}
+    for address in repo_addresses:
+        repo = g.get_repo(address)
+        try:
+            licence_contents = repo.get_license().decoded_content.decode('utf-8')  # decode to utf-8
+        except UnknownObjectException:
+            licence_contents = None
+        licence_files[address] = licence_contents
+    return licence_files
+
+
 if __name__ == '__main__':
     repos = get_repo_addresses("resources/GitHub Repositories.txt")
     grades = initialise_grade_dictionairy(repos)
     READMES = get_decoded_readmes(repos)
     RAW_READMES = get_raw_readmes(repos)
+    LICENCE_FILES = get_licence_files(repos)
     BUILD_FILES, BUILD_TOOLS = get_build_files(repos)
     # This loop will determine all the Repos in GitHub Repositories.txt grades
     for repo in repos:
@@ -235,7 +247,9 @@ if __name__ == '__main__':
             # Evaluate README markdown usage for extra credit
             if len(READMES[repo]) > FACTOR_README_MARKDOWN * len(RAW_READMES[repo]):
                 grades[repo] = grade_update(grades[repo], 'README_USES_MARKDOWN', README_USES_MARKDOWN)
-
+        # Evaluate LICENCE file
+        if LICENCE_FILES[repo] is not None:
+            grades[repo] = grade_update(grades[repo], 'LICENCE_FILE', LICENCE_FILE)
         # Evaluate package
         if BUILD_TOOLS is not None:  # does a build file exist?
             # We use the percent of the file existing times the points packaging gets
@@ -259,6 +273,5 @@ if __name__ == '__main__':
     for repo in repos:
         path = f"./results/{repo}"
         if not os.path.exists(path):
-            print("YOOOoo")
             os.makedirs(path)
         create_grade_file(grades, repo)
