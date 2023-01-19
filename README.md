@@ -17,7 +17,7 @@ This is a Python application which aims at partly grading the semester assignmen
 * LICENCE file existence
 * CONTRIBUTING file existence 
 * A thorough README file (•)
-* A README file which actively uses Markdown
+* A README file which actively uses Markdown (•)
 * Use of GitHub features (Issues, Actions, Wiki , Projects etc)
 
-_tasks with (•) are done or partly done_
+_tasks with (•) are done_
