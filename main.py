@@ -32,7 +32,9 @@ def search_github_repo(file_name, repo):
 def get_a_build_file(repo_address):
     # Get a repo
     repo = g.get_repo(repo_address)
-    # If the build is Maven this will not throw an exception
+
+    # FIXME LOOK FOR FILE FIRST IN THE HEAD BEFORE SEARCH
+    # If the build is Maven this will return a file
     packaging_file = search_github_repo("pom.xml", repo)
     if packaging_file is not None:
         packaging_type = "Maven"
