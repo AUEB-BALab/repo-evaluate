@@ -1,5 +1,5 @@
 """
-This module defines some constant names. Thet are Percentiles of grades and threshold for different checks
+This module defines some constant names. These are Percentiles of grades and threshold for different checks
 """
 
 # Percentiles of each assignment
@@ -44,3 +44,4 @@ GITHUB_FEATURES = 0.1  # Issues, actions, wiki , projects
 
 # Bonus Thresholds
 BIG_README_SIZE = 1500
+FACTOR_README_MARKDOWN = 1.08 # has to be X times bigger that raw data to be considered good
