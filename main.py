@@ -88,7 +88,7 @@ def get_repo_addresses(file_location):
     return contents.splitlines()
 
 
-# Takes a string and a Path. If the path dosent exist it creates it. Then it saves the string to file
+# Takes a string and a Path. If the path doesn't exist it creates it. Then it saves the string to file
 def save_string_to_file(text, file_path):
     dir = os.path.dirname(file_path)
     if not os.path.exists(dir):
@@ -107,7 +107,7 @@ def get_current_path():
     return current_path
 
 
-# Runs a gradle task in the spesified path. the task is parced via the task argument
+# Runs a gradle task in the specified path. the task is parsed via the task argument
 def run_gradle_task(task, gradle_project_path):
     # We structure the command
     gradle_command = f"gradle {task} -p '{gradle_project_path}'"
@@ -117,7 +117,7 @@ def run_gradle_task(task, gradle_project_path):
     return result
 
 
-# Returns true if a groovy_build is valid
+# Returns true if a groovy build is valid
 def validate_groovy_build(build_file_string, repo):
     working_dir = get_current_path()
     # We save the Gradle file to a folder in our resources
@@ -127,7 +127,7 @@ def validate_groovy_build(build_file_string, repo):
     return result.returncode == 0
 
 
-# Returns true if a kotlin_build is valid
+# Returns true if a kotlin build is valid
 def validate_kotlin_build(build_file_string, repo):
     working_dir = get_current_path()
     # We save the Gradle file to a folder in our resources
