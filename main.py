@@ -2,6 +2,7 @@ import os
 
 from github import Github
 
+import testing
 import contributing
 import licence
 import readme
@@ -26,10 +27,12 @@ if __name__ == '__main__':
     LICENCE_FILES = licence.get_licence_files(repos)
     CONTRIBUTING_FILES = contributing.get_contributing_files(repos)
     BUILD_FILES, BUILD_TOOLS = build.get_build_files(repos)
+    JAVA_NON_TEST_COUNT, JAVA_TEST_COUNT = testing.get_java_file_count(repos)
 
     # This loop will determine all the Repos in GitHub Repositories.txt grades
     for repo in repos:
-
+        print("Scraping GitHub Completed!")
+        print(f"{repo} \nnot test: {JAVA_NON_TEST_COUNT[repo]} \ntest: {JAVA_TEST_COUNT[repo]}")
         # Evaluate README
         if READMES[repo] is not None:
             grades[repo] = grade_update(grades[repo], 'README', README)
@@ -68,6 +71,20 @@ if __name__ == '__main__':
                     if build.validate_kotlin_build(BUILD_FILES[repo], repo):
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] = grade_update(grades[repo], 'BUILD_FILE_OK', FILE_IS_WELL_FORMED * PACKAGING)
+
+        # evaluate testing
+        # evaluate test file existence
+        if JAVA_TEST_COUNT[repo] > 0:
+            grades[repo] = grade_update(grades[repo], 'TESTING_EXISTENCE', TESTING_EXISTENCE * TESTING)
+        # find test ratio
+        testing_ratio = testing.find_test_ratio(JAVA_TEST_COUNT[repo], JAVA_NON_TEST_COUNT[repo])
+        if testing_ratio == -1:
+            print(f"{repo} has no java files! That's an issue!")
+        # evaluate test raio
+        if testing_ratio > 0.25:
+            grades[repo] = grade_update(grades[repo], 'TESTING_COVERAGE', TESTING_COVERAGE * TESTING)
+        else:
+            grades[repo] = grade_update(grades[repo], 'TESTING_COVERAGE', 0)
 
         # finalise grades (sum low level modules to high level modules)
         grades[repo] = finalise_grades(grades[repo])

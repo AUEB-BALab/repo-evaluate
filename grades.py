@@ -25,7 +25,13 @@ def initialise_grade_dictionary(github_repositories):
 # Function calculates finalises grades
 # Some grades are combined so this function dose the combination
 def finalise_grades(grade_module_dict):
+    # Create top modules which are partly graded
     grade_module_dict['PACKAGING'] = grade_module_dict['BUILD_EXISTS'] + grade_module_dict['BUILD_FILE_OK']
+    grade_module_dict['TESTING'] = grade_module_dict['TESTING_EXISTENCE'] + grade_module_dict['TESTING_COVERAGE']
+
+    # factor grades in acordance to top mark
+    for module in grade_module_dict:
+        grade_module_dict[module] *= TOP_MARK
     return grade_module_dict
 
 
@@ -45,6 +51,10 @@ def create_grade_file(grade_dict, repo, build):
         fp.write(f"\nPACKAGING was evaluated from:\n"
                  f" -BUILD_EXISTS:{grade_dict[repo]['BUILD_EXISTS']}\n"
                  f" -BUILD_FILE_OK:{grade_dict[repo]['BUILD_FILE_OK']}")
+
+        fp.write(f"\nTESTING was evaluated from:\n"
+                 f" -TESTING_COVERAGE:{grade_dict[repo]['TESTING_COVERAGE']}\n"
+                 f" -TESTING_EXISTENCE:{grade_dict[repo]['TESTING_EXISTENCE']}")
 
         fp.write("\n\nBonuses:")
         for module in BONUS_MODULES:
