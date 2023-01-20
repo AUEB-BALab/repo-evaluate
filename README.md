@@ -3,8 +3,8 @@ This is a Python application which aims at partly grading the semester assignmen
 
 ### Features
 #### It will grade the following
-* Test Classes existence
-* Test codes coverage of Classes 
+* Test Classes existence (•)
+* Test codes coverage of Classes (•)
 * Packaging file existence (•)
 * Packaging file language formation (•)
 * Commenting
