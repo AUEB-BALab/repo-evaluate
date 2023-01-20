@@ -9,25 +9,9 @@ from github.GithubException import UnknownObjectException
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 
+from search import search_name_matches
+
 g = Github(os.environ['GITHUB_GPG_KEY'])
-
-
-# Looks for a pom file everywhere in a repository as POM files were found to not bee in the top DIR
-def search_github_repo(file_name, repo):
-    # recursively searching all the directories
-    def search_directory(directory):
-        contents = repo.get_contents(directory)
-        for content in contents:
-            if content.type == "dir":
-                file_content = search_directory(content.path)
-                if file_content is not None:
-                    return file_content
-            elif content.name == file_name:
-                # get the contents of the file
-                file_content = repo.get_contents(content.path)
-                return file_content
-
-    return search_directory('')
 
 
 def get_a_build_file(repo_address):
@@ -56,15 +40,15 @@ def get_a_build_file(repo_address):
                 pass  # We now move on to look for the file everywhere in the repository
 
     # If the build is Maven this will return a file
-    packaging_file = search_github_repo("pom.xml", repo)
+    packaging_file = search_name_matches("pom.xml", repo)
     if packaging_file is not None:
         packaging_type = "Maven"
     else:  # build is not Maven
-        packaging_file = search_github_repo("build.gradle", repo)
+        packaging_file = search_name_matches("build.gradle", repo)
         if packaging_file is not None:
             packaging_type = "Gradle - Groovy"
         else:  # build is not Gradle /w Groovy or Maven
-            packaging_file = search_github_repo("build.gradle.kts", repo)
+            packaging_file = search_name_matches("build.gradle.kts", repo)
             if packaging_file is not None:
                 packaging_type = "Gradle - Kotlin"
             else:  # build is not Gradle or Maven
