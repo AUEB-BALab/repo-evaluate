@@ -19,7 +19,7 @@ by dspinellis
 * CONTRIBUTING file existence (•)
 * A thorough README file (•)
 * A README file which actively uses Markdown (•)
-* Use of GitHub features (Issues, Actions, Wiki , Projects etc)
+* Use of GitHub features (Issues, Actions, Projects etc) (•)
 
 #### Gradle validation 
 - Gradle validation doesn't work 100% of the time. When a Gradle build fails standard error is printed to sort manually
