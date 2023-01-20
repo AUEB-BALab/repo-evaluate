@@ -2,6 +2,7 @@ import os
 
 from github import Github
 
+import contributing
 import licence
 import readme
 import build
@@ -23,9 +24,12 @@ if __name__ == '__main__':
     READMES = readme.get_decoded_readmes(repos)
     RAW_READMES = readme.get_raw_readmes(repos)
     LICENCE_FILES = licence.get_licence_files(repos)
+    CONTRIBUTING_FILES = contributing.get_contributing_files(repos)
     BUILD_FILES, BUILD_TOOLS = build.get_build_files(repos)
+
     # This loop will determine all the Repos in GitHub Repositories.txt grades
     for repo in repos:
+
         # Evaluate README
         if READMES[repo] is not None:
             grades[repo] = grade_update(grades[repo], 'README', README)
@@ -37,9 +41,15 @@ if __name__ == '__main__':
             # Evaluate README markdown usage for extra credit
             if len(READMES[repo]) > FACTOR_README_MARKDOWN * len(RAW_READMES[repo]):
                 grades[repo] = grade_update(grades[repo], 'README_USES_MARKDOWN', README_USES_MARKDOWN)
+
         # Evaluate LICENCE file
         if LICENCE_FILES[repo] is not None:
             grades[repo] = grade_update(grades[repo], 'LICENCE_FILE', LICENCE_FILE)
+
+        # Evaluate CONTRIBUTING file
+        if CONTRIBUTING_FILES[repo] is not None:
+            grades[repo] = grade_update(grades[repo], 'CONTRIBUTING_FILE', CONTRIBUTING_FILE)
+
         # Evaluate package
         if BUILD_TOOLS[repo] is not None:  # does a build file exist?
             # We use the percent of the file existing times the points packaging gets
@@ -58,6 +68,8 @@ if __name__ == '__main__':
                     if build.validate_kotlin_build(BUILD_FILES[repo], repo):
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] = grade_update(grades[repo], 'BUILD_FILE_OK', FILE_IS_WELL_FORMED * PACKAGING)
+
+        # finalise grades (sum low level modules to high level modules)
         grades[repo] = finalise_grades(grades[repo])
 
     for repo in repos:
