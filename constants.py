@@ -1,8 +1,8 @@
 """
 This module defines some constant names. These are Percentiles of grades and threshold for different checks
 """
-# These are the hi level modules that get graded
-TOP_MODULES = ['README', 'PACKAGING']
+# These are the high level modules that get graded
+TOP_MODULES = ['README', 'PACKAGING', 'TESTING']
 
 # These are the bonus modules
 BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBUTING_FILE']
@@ -38,7 +38,7 @@ TESTING_COVERAGE = round(1 - TESTING_EXISTENCE, 2)
 PERCENT_OF_METHODS = 0.5
 PERCENT_OF_LINES = 0.25
 
-# Comments
+# Comments #
 LINES_PER_COMMENT = 10
 METHODS_PER_COMMENT = 1
 
