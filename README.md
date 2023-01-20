@@ -15,7 +15,7 @@ This is a Python application which aims at partly grading the semester assignmen
 
 #### It will give grade bonuses for:
 * LICENCE file existence(•)
-* CONTRIBUTING file existence 
+* CONTRIBUTING file existence (•)
 * A thorough README file (•)
 * A README file which actively uses Markdown (•)
 * Use of GitHub features (Issues, Actions, Wiki , Projects etc)
