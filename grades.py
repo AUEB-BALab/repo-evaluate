@@ -50,9 +50,9 @@ def create_grade_file(grade_dict, repo, build):
         for module in BONUS_MODULES:
             fp.write(f"\n{module}:{grade_dict[repo][module]}")
 
-        # Bonuses might be over 10
-        if total > 10:
-            total = 10
+        # Bonuses might make the final grade over the top mark
+        if total > TOP_MARK:
+            total = TOP_MARK
 
         fp.write(f"\n\nTotal Grade:{str(total)}")
 
