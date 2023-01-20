@@ -5,11 +5,11 @@ This module defines some constant names. These are Percentiles of grades and thr
 TOP_MODULES = ['README', 'PACKAGING', 'TESTING']
 
 # These are the bonus modules
-BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBUTING_FILE']
+BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBUTING_FILE', 'GITHUB_FEATURES']
 
 # These are the low level modules that get graded (for example PACKAGING is broken in to BUILD_EXISTS and BUILD_FILE_OK)
 FINAL_MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK', 'LICENCE_FILE',
-                 'CONTRIBUTING_FILE', 'TESTING_EXISTENCE', 'TESTING_COVERAGE']
+                 'CONTRIBUTING_FILE', 'TESTING_EXISTENCE', 'TESTING_COVERAGE', 'GITHUB_FEATURES']
 
 # Top marks (what is the highest grade possible)
 TOP_MARK = 10
@@ -19,7 +19,7 @@ CHECKSTYLE = 0.15
 TESTING = 0.25
 PACKAGING = 0.3
 README = 0.2
-COMMENTING = round(1 - (CHECKSTYLE + TESTING + PACKAGING+README), 2)
+COMMENTING = round(1 - (CHECKSTYLE + TESTING + PACKAGING + README), 2)
 
 # Internal Percentiles
 

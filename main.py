@@ -7,6 +7,7 @@ import contributing
 import licence
 import readme
 import build
+import features
 from grades import *
 
 g = Github(os.environ['GITHUB_GPG_KEY'])
@@ -85,6 +86,13 @@ if __name__ == '__main__':
             grades[repo] = grade_update(grades[repo], 'TESTING_COVERAGE', TESTING_COVERAGE * TESTING)
         else:
             grades[repo] = grade_update(grades[repo], 'TESTING_COVERAGE', 0)
+
+        # Evaluate use of GitHub features
+        result = features.repo_uses_github_features(repo)
+        if result:
+            grades[repo] = grade_update(grades[repo], 'GITHUB_FEATURES', GITHUB_FEATURES)
+        else:
+            grades[repo] = grade_update(grades[repo], 'GITHUB_FEATURES', 0)
 
         # finalise grades (sum low level modules to high level modules)
         grades[repo] = finalise_grades(grades[repo])
