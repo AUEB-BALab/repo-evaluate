@@ -1,9 +1,16 @@
 """
 This module defines some constant names. These are Percentiles of grades and threshold for different checks
 """
+# These are the hi level modules that get graded
 TOP_MODULES = ['README', 'PACKAGING']
-BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE']
-FINAL_MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK', 'LICENCE_FILE']
+
+# These are the bonus modules
+BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBUTING_FILE']
+
+# These are the low level modules that get graded (for example PACKAGING is broken in to BUILD_EXISTS and BUILD_FILE_OK)
+FINAL_MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK', 'LICENCE_FILE',
+                 'CONTRIBUTING_FILE']
+
 # Percentiles of each assignment
 CHECKSTYLE = 0.15
 TESTING = 0.25
