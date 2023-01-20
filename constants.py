@@ -9,7 +9,10 @@ BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBU
 
 # These are the low level modules that get graded (for example PACKAGING is broken in to BUILD_EXISTS and BUILD_FILE_OK)
 FINAL_MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK', 'LICENCE_FILE',
-                 'CONTRIBUTING_FILE']
+                 'CONTRIBUTING_FILE', 'TESTING_EXISTENCE', 'TESTING_COVERAGE']
+
+# Top marks (what is the highest grade possible)
+TOP_MARK = 10
 
 # Percentiles of each assignment
 CHECKSTYLE = 0.15
@@ -42,9 +45,12 @@ PERCENT_OF_LINES = 0.25
 LINES_PER_COMMENT = 10
 METHODS_PER_COMMENT = 1
 
+# Testing #
+TEST_CLASS_PER_NORMAL_CLASS = 0.5
+
 # TODO check if this is something we would like. Otherwise flag for removal.
 #   This could change year on year to not be taken advantage of.
-# Bonus points out of 10 for
+# Bonus points as a precentile of Top marks
 LICENCE_FILE = 0.01
 CONTRIBUTING_FILE = 0.01
 BIG_README = 0.01
