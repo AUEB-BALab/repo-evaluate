@@ -64,7 +64,7 @@ def create_grade_file(grade_dict, repo, build):
         if total > TOP_MARK:
             total = TOP_MARK
 
-        fp.write(f"\n\nTotal Grade:{str(total)}")
+        fp.write(f"\n\nTotal Grade:{str(total)}/{TOP_MARK}")
 
         if build != "Maven" and build is not None:
             # Warning if build is Gradle as issues with validation may ocure
