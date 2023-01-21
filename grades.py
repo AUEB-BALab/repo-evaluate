@@ -5,15 +5,27 @@ from constants import *
 import features
 
 
-# Function takes the grade dictionary and updates it with the new grade added to a module
-def grade_update(current_grade_dict, module, grade):
+def grade_update(current_grade_dict: dict[str, float], module: str, grade: float) -> dict[str, float]:
+    """
+    Function takes the grade dictionary and updates it with the new grade added to a module
+    :param current_grade_dict: The grade dictionairy which need to be updated
+    :param module: the grading module which is beeing updated
+    :param grade: the grade which was received in the module
+    :return: The updated grade dictionairy
+    """
     current_grade_dict[module] = grade
     return current_grade_dict
 
 
-# Function initialises the grade dictionary with all the module grades as 0
-# As new gradings are added the modules will be updated
-def initialise_grade_dictionary(github_repositories):
+def initialise_grade_dictionary(github_repositories: list[str]) -> dict[str, dict[str, float]]:
+    """
+    Function initialises the grade dictionary with all the module grades as 0
+    As new gradings are added the modules will be updated
+
+    :param github_repositories: repository addresses in a list formatted as ['author1/name1', 'author2/name2'...]
+    :return: A dictionairy of dictionaries. The top level dictionairy connects repository address to grade dictionaries.
+        The bottom level dictionairy connects grading modules to grades
+    """
     grade_dict = {}
     for repository in github_repositories:
         grade_dict[repository] = {}
@@ -23,9 +35,13 @@ def initialise_grade_dictionary(github_repositories):
     return grade_dict
 
 
-# Function calculates finalises grades
-# Some grades are combined so this function dose the combination
-def finalise_grades(grade_module_dict):
+def finalise_grades(grade_module_dict: dict[str, float]) -> dict[str, float]:
+    """
+    Function calculates finalised grades
+    Some grades are combined in to one major grade so this function dose the calculations
+    :param grade_module_dict: The grade dictionairy which need to be finalised
+    :return: The finalised grade dictionairy
+    """
     # Create top modules which are partly graded
     grade_module_dict['PACKAGING'] = grade_module_dict['BUILD_EXISTS'] + grade_module_dict['BUILD_FILE_OK']
     grade_module_dict['TESTING'] = grade_module_dict['TESTING_EXISTENCE'] + grade_module_dict['TESTING_COVERAGE']
@@ -38,9 +54,15 @@ def finalise_grades(grade_module_dict):
     return grade_module_dict
 
 
-# Creates a grade file. File contains all grades and a total.
-# In a clean layout to make it clear how it was graded
-def create_grade_file(grade_dict, repo, build):
+def create_grade_file(grade_dict: dict[str, float], repo: str, build: str) -> None:
+    """
+    Creates a grade file. File contains all grades and a total.
+    They are placed in a clean layout to make it clear how it was graded
+    :param grade_dict: The finalised grade dictionairy
+    :param repo: repository address in format 'author/name'
+    :param build: tool used to build. Used to add warning in case of Gradle build
+    :return: None
+    """
     total = 0
     for module in FINAL_MODULES:
         total += grade_dict[repo][module]

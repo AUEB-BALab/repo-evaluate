@@ -14,8 +14,13 @@ from grades import *
 g = Github(os.environ['GITHUB_GPG_KEY'])
 
 
-# Gets GitHub repositories from a file. Returns them as a list of strings
-def get_repo_addresses(file_location):
+def get_repo_addresses(file_location: str) -> list[str]:
+    """
+    Gets GitHub repository addresses from a file. Returns them as a list of strings
+
+    :param file_location: txt file which contains the GitHub repositories
+    :return: A list with all the GitHub repository addresses
+    """
     with open(file_location) as fp:
         contents = fp.read()
     return contents.splitlines()
@@ -45,7 +50,7 @@ if __name__ == '__main__':
     for repo in repos:
         java_files_exist = True
 
-        print(f"[INFO] Now evaluating: {repo} Please wait")
+        print(f"[INFO] Now evaluating: {repo}")
         # Evaluate README
         if READMES[repo] is not None:
             grades[repo] = grade_update(grades[repo], 'README', README)
