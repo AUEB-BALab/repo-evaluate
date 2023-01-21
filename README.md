@@ -36,13 +36,12 @@ by dspinellis
 1) In `resources/GitHub Repositories.txt`  place the repositories you want to grade
 2) Tweak the constants in `constants.py` to your liking
 3) Run `main.py`
-4) Results are outputed to the in `./results` folder
+4) Results are outputted to the `./results` folder
 
 #### Requirements
 
-- You must have an environmental variable `GITHUB_GPG_KEY` with your GitHub GPG key otherwise you hit the GitHub API
-  limit
-  pretty fast
+- You must have an environmental variable `GITHUB_GPG_KEY` with your GitHub GPG key otherwise you will hit the GitHub
+  API limit pretty fast
 - PowerShell is used and must be installed (by default It's available on Windows)
 - Java must be installed in order to evaluate Checkstyle
 - Gradle must be installed in order to evaluate Gradle builds
@@ -59,7 +58,10 @@ by dspinellis
   in java files
 - The number of contributors required is currently set as a hard number not a factor of group participants
 
-#### Licencing 
+#### Licencing
+
 - Unless otherwise stated all of this repository is covered by the EUROPEAN UNION PUBLIC LICENCE v. 1.2
 - My permanent address is in Greece, so as per EUPL v1.2 the governing law is the Greek law
-- You are required to read what is stated in the [LICENCE.md](https://github.com/panos1b/Vathmologia_Ergasion/blob/master/LICENSE.md) before using this repository in any way
+- You are required to read what is stated in
+  the [LICENCE.md](https://github.com/panos1b/Vathmologia_Ergasion/blob/master/LICENSE.md) before using this repository
+  in any way
