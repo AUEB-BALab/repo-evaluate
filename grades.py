@@ -2,6 +2,7 @@
 This module defines all methods which deal with grading the assignment
 """
 from constants import *
+import features
 
 
 # Function takes the grade dictionary and updates it with the new grade added to a module
@@ -42,6 +43,11 @@ def create_grade_file(grade_dict, repo, build):
     for module in FINAL_MODULES:
         total += grade_dict[repo][module]
     total = round(total, 3)
+
+    # Bonuses might make the final grade over the top mark
+    if total > TOP_MARK:
+        total = TOP_MARK
+
     with open(f"./results/{repo}/results.txt", 'w+') as fp:
 
         fp.write("Grades:")
@@ -59,10 +65,6 @@ def create_grade_file(grade_dict, repo, build):
         fp.write("\n\nBonuses:")
         for module in BONUS_MODULES:
             fp.write(f"\n{module}:{grade_dict[repo][module]}")
-
-        # Bonuses might make the final grade over the top mark
-        if total > TOP_MARK:
-            total = TOP_MARK
 
         fp.write(f"\n\nTotal Grade:{str(total)}/{TOP_MARK}")
 
