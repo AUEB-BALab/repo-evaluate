@@ -15,6 +15,12 @@ g = Github(os.environ['GITHUB_GPG_KEY'])
 
 
 def get_a_build_file(repo_address):
+    """
+    Gets the build file and packaging_type for a repository
+    :param repo_address: repository address in format 'author/name'
+    :type repo_address: str
+    :return: Tuple of (packaging_file, packaging_type)
+    """
     # Get a repo
     repo = g.get_repo(repo_address)
 
@@ -57,25 +63,41 @@ def get_a_build_file(repo_address):
     return (packaging_file, packaging_type)
 
 
-# Gets build files of repos given as a list. Returns a tuple with the build_file dictionary and a build_tool Dictionary
-# The build_file dictionary connects a repo address with its build file
-# The build_tool dictionary connects a repo address with its build tool
-def get_build_files(repo_addresses) -> (str, str):
+def get_build_files(repo_addresses):
+    """
+    Gets build files of repos given as a list. Returns a tuple with the build_file dictionary
+    and a build_tools Dictionary.
+
+    :param repo_addresses: repositories in format ['author1/project1','author2/project2']
+    :type repo_addresses: list
+    :return: Tuple of build_files,build_tools
+    | The build_files dictionary connects a repo address with its build file
+    | The build_tools dictionary connects a repo address with its build tool
+    """
     build_files = {}
-    build_tool = {}
+    build_tools = {}
     for address in repo_addresses:
         contents, tool = get_a_build_file(address)
-        build_tool[address] = tool
+        build_tools[address] = tool
         if (contents is None):
             build_files[address] = None
         else:
             build_files[address] = contents.decoded_content.decode(
                 'utf-8')  # We decode the content to bytes and then the bytes to UTF-8
-    return build_files, build_tool
+    return build_files, build_tools
 
 
-# Validates if a given xml follows the Maven XSD
 def validate_maven_pom(xml_string: str, maven_xsd_path: str) -> bool:
+    """
+    Validates if a given xml follows the Maven XSD.
+
+    :param xml_string: the xml data
+    :type xml_string: str
+    :param maven_xsd_path: the path to the maven xsd
+    :type maven_xsd_path: str
+    :return: Weather It's valid or not
+    :rtype: bool
+    """
     xmlschema_doc = etree.parse(maven_xsd_path)
     xmlschema = etree.XMLSchema(xmlschema_doc)
     try:
@@ -86,16 +108,29 @@ def validate_maven_pom(xml_string: str, maven_xsd_path: str) -> bool:
     return result
 
 
-# Takes a string and a Path. If the path doesn't exist it creates it. Then it saves the string to the path file
-def save_string_to_file(text, file_path):
-    dir = os.path.dirname(file_path)
-    if not os.path.exists(dir):
-        os.makedirs(dir)
+def save_string_to_file(text: str, file_path: str):
+    """
+    Takes a string and a Path to a file.
+     If the path doesn't exist it creates it.
+     Then it saves the string to the path file
+
+    :param text: string we want to save
+    :param file_path: path to the file (NOT A DIRECTORY!)
+    :return: None
+    """
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
     with open(file_path, "w") as f:
         f.write(text)
 
 
 def get_current_path():
+    """
+         Gets the current path which the python program is executed in
+
+        :return: Current path as string
+    """
     current_path = os.path.abspath(__file__)
     # The program name is main.py which is 9 characters w/ the last 2 backslashes. We don't want them
     current_path = current_path.strip()[:-8]
@@ -105,8 +140,15 @@ def get_current_path():
     return current_path
 
 
-# Runs a gradle task in the specified path. the task is parsed via the task argument
-def run_gradle_task(task, gradle_project_path):
+#
+def run_gradle_task(task: str, gradle_project_path: str):
+    """
+    Runs a gradle task in the specified path. The task is parsed via the task argument
+
+    :param task: A gradle tast (Such as build)
+    :param gradle_project_path: the path to the gradle project
+    :return: CompletedProcess
+    """
     # We structure the command
     gradle_command = f"gradle {task} -p '{gradle_project_path}'"
     # We send it to run via powershell and wait for an answer
@@ -115,7 +157,14 @@ def run_gradle_task(task, gradle_project_path):
     return result
 
 
-def gradle_build_failure(repo, standard_error):
+def gradle_build_failure(repo: str, standard_error: str) -> None:
+    """
+    Saves the standard_error from a Gradle build failure to a repository path in results
+
+    :param repo: Repository address in format 'author/name'
+    :param standard_error: Standard error from build in a human-readable format (ex. utf-8)
+    :return: None
+    """
     print(f"[WARNING] {repo} BUILD FAILED. More info in results")
     path = f"./results/{repo}"
     if not os.path.exists(path):
@@ -128,7 +177,14 @@ def gradle_build_failure(repo, standard_error):
 
 
 # Returns true if a groovy build is valid
-def validate_groovy_build(build_file_string, repo):
+def validate_groovy_build(build_file_string: str, repo: str) -> bool:
+    """
+    Validates a Gradle Groovy build
+    :param build_file_string: The Gradle build file
+    :param repo: Repository address in format 'author/name'
+    :return: Weather the build failed or not
+    :rtype: bool
+    """
     working_dir = get_current_path()
     # We save the Gradle file to a folder in our resources
     save_string_to_file(build_file_string, f"{working_dir}/resources/Gradle Builds/{repo}/build.gradle")
@@ -141,7 +197,14 @@ def validate_groovy_build(build_file_string, repo):
 
 
 # Returns true if a kotlin build is valid
-def validate_kotlin_build(build_file_string, repo):
+def validate_kotlin_build(build_file_string: str, repo: str) -> bool:
+    """
+    Validates a Gradle Kotlin build
+    :param build_file_string: The Gradle build file
+    :param repo: Repository address in format 'author/name'
+    :return: Weather the build failed or not
+    :rtype: bool
+    """
     working_dir = get_current_path()
     # We save the Gradle file to a folder in our resources
     save_string_to_file(build_file_string, f"{working_dir}/resources/Gradle Builds/{repo}/build.gradle.kts")
