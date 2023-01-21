@@ -34,7 +34,6 @@ def search_name_contains_return_size(name_contains: str, repo) -> dict[str, int]
     return search_directory('')
 
 
-
 def search_name_contains_return_file(name_contains: str, name_doesnt_contain: str, repo_address: str):
     """
     Looks for names containing a specific element. For example '.java'
@@ -72,6 +71,7 @@ def search_name_matches(file_name: str, repo) -> str:
     :type repo: Repository
     :return: file_contents
     """
+
     # build files were found to not bee in the top DIR...
 
     # recursively searching all the directories
