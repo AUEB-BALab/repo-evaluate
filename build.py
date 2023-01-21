@@ -79,7 +79,7 @@ def validate_maven_pom(xml_string: str, maven_xsd_path: str) -> bool:
     xmlschema_doc = etree.parse(maven_xsd_path)
     xmlschema = etree.XMLSchema(xmlschema_doc)
     try:
-        xml_doc = etree.fromstring(xml_string)
+        xml_doc = etree.fromstring(xml_string.encode())
         result = xmlschema.validate(xml_doc)
     except XMLSyntaxError:
         result = False
