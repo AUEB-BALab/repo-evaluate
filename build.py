@@ -115,6 +115,18 @@ def run_gradle_task(task, gradle_project_path):
     return result
 
 
+def gradle_build_failure(repo, standard_error):
+    print(f"[WARNING] {repo} BUILD FAILED. More info in results")
+    path = f"./results/{repo}"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    with open(f"./results/{repo}/gradle_build_failure_info.txt", 'w+') as fp:
+        fp.write(repo)
+        fp.write("\n\n[WARNING] Build failed:")
+        fp.write("\n")
+        fp.write(standard_error)
+
+
 # Returns true if a groovy build is valid
 def validate_groovy_build(build_file_string, repo):
     working_dir = get_current_path()
@@ -124,8 +136,7 @@ def validate_groovy_build(build_file_string, repo):
     result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
     # The only thing we care about is if the gradle task succeeded
     if result.returncode != 0:
-        print(repo)
-        print(result.stderr.decode("utf-8"))
+        gradle_build_failure(repo, result.stderr.decode("utf-8"))
     return result.returncode == 0
 
 
@@ -138,6 +149,5 @@ def validate_kotlin_build(build_file_string, repo):
     result = run_gradle_task("build", f"{working_dir}/resources/Gradle Builds/{repo}/")
     # The only thing we care about is if the gradle task succeeded
     if result.returncode != 0:
-        print(repo)
-        print(result.stderr.decode("utf-8"))
+        gradle_build_failure(repo, result.stderr.decode("utf-8"))
     return result.returncode == 0
