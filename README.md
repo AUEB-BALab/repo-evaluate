@@ -1,7 +1,7 @@
 ## Vathmologia Ergasion
 
 This is a Python application which aims at partly grading the semester assignments for the Programming II class taught
-by dspinellis
+by @dspinellis
 
 ### Features
 
