@@ -60,3 +60,6 @@ GITHUB_FEATURES = 0.01  # Issues, actions, wiki , projects
 # Bonus Thresholds
 BIG_README_SIZE = 1500
 FACTOR_README_MARKDOWN = 1.08  # has to be X times bigger that raw data to be considered good
+
+# Requirments
+MINIMUM_AMOUNT_OF_COMMITS = 50
