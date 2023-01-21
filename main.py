@@ -22,18 +22,27 @@ def get_repo_addresses(file_location):
 
 if __name__ == '__main__':
     repos = get_repo_addresses("resources/GitHub Repositories.txt")
+    print("[INFO] Scraping GitHub. This might take some time!")
+    print("[INFO]   Progress: 0%")
     grades = initialise_grade_dictionary(repos)
+    print("[INFO]   Progress: 10%")
     READMES = readme.get_decoded_readmes(repos)
+    print("[INFO]   Progress: 20%")
     RAW_READMES = readme.get_raw_readmes(repos)
+    print("[INFO]   Progress: 30%")
     LICENCE_FILES = licence.get_licence_files(repos)
+    print("[INFO]   Progress: 40%")
     CONTRIBUTING_FILES = contributing.get_contributing_files(repos)
+    print("[INFO]   Progress: 50%")
     BUILD_FILES, BUILD_TOOLS = build.get_build_files(repos)
+    print("[INFO]   Progress: 70%")
     JAVA_NON_TEST_COUNT, JAVA_TEST_COUNT = testing.get_java_file_count(repos)
+    print("[INFO]   Progress: 90%")
+    print("[INFO]   Progress: 100%")
 
     # This loop will determine all the Repos in GitHub Repositories.txt grades
     for repo in repos:
-        print("Scraping GitHub Completed!")
-        print(f"{repo} \nnot test: {JAVA_NON_TEST_COUNT[repo]} \ntest: {JAVA_TEST_COUNT[repo]}")
+        print(f"[INFO] Now evaluating: {repo}")
         # Evaluate README
         if READMES[repo] is not None:
             grades[repo] = grade_update(grades[repo], 'README', README)
@@ -80,7 +89,7 @@ if __name__ == '__main__':
         # find test ratio
         testing_ratio = testing.find_test_ratio(JAVA_TEST_COUNT[repo], JAVA_NON_TEST_COUNT[repo])
         if testing_ratio == -1:
-            print(f"{repo} has no java files! That's an issue!")
+            print(f"[WARNING] {repo} has no java files! That's an issue!")
         # evaluate test raio
         if testing_ratio > 0.25:
             grades[repo] = grade_update(grades[repo], 'TESTING_COVERAGE', TESTING_COVERAGE * TESTING)
@@ -98,6 +107,7 @@ if __name__ == '__main__':
         grades[repo] = finalise_grades(grades[repo])
 
     for repo in repos:
+        print(f"[INFO] Now creating result file for: {repo}")
         path = f"./results/{repo}"
         if not os.path.exists(path):
             os.makedirs(path)

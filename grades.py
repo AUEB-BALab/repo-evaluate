@@ -49,8 +49,8 @@ def create_grade_file(grade_dict, repo, build):
         total = TOP_MARK
 
     with open(f"./results/{repo}/results.txt", 'w+') as fp:
-
-        fp.write("Grades:")
+        fp.write(repo)
+        fp.write("\nGrades:")
         for module in TOP_MODULES:
             fp.write(f"\n{module}:{grade_dict[repo][module]}")
 
@@ -69,12 +69,24 @@ def create_grade_file(grade_dict, repo, build):
         fp.write(f"\n\nTotal Grade:{str(total)}/{TOP_MARK}")
 
         if build != "Maven" and build is not None:
-            # Warning if build is Gradle as issues with validation may ocure
+            # Warning if build is Gradle as issues with validation may occur
             fp.write(
-                f"\n\n{build} was used to build this project. \n"
-                "This might mean that the build file is incorrectly flagged as wrong\n"
-                "(BUILD_FILE_OK:0). If you think this is the case please inform me!")
+                f"\n\n[WARNING] {build} was used to build this project. \n"
+                "[WARNING] This might mean that the build file is incorrectly flagged as wrong\n"
+                "[WARNING] (BUILD_FILE_OK:0). If you think this is the case please inform me!")
         elif build is None:
             # Warning if no build was detected as it might be ant or something else (renamed POM or build.gradle)
-            fp.write(f"\n\nNOTHING was used to build this project. \n"
-                     "If you think this is wrong please inform me!")
+            fp.write(f"\n\n[WARNING] NOTHING was used to build this project. \n"
+                     "[WARNING] If you think this is wrong please inform me!")
+
+        if features.commit_count_ok(repo):
+            pass
+        else:
+            fp.write("\n\n[WARNING] This Repository doesn't have enough commits ! \n"
+                     "[WARNING] Please evaluate why!")
+
+        if features.contributor_count_ok(repo):
+            pass
+        else:
+            fp.write("\n\n[WARNING] This Repository doesn't have enough contributors ! \n"
+                     "[WARNING] Please evaluate why!")
