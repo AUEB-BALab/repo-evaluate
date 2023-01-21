@@ -19,7 +19,7 @@ def get_repo_addresses(file_location: str) -> list[str]:
     Gets GitHub repository addresses from a file. Returns them as a list of strings
 
     :param file_location: txt file which contains the GitHub repositories
-    :return: A list with all the GitHub repository addresses
+    :return: Repository addresses in a list formatted as ['author1/name1', 'author2/name2'...]
     """
     with open(file_location) as fp:
         contents = fp.read()
