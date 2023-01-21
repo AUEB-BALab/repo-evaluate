@@ -29,6 +29,8 @@ def finalise_grades(grade_module_dict):
     # Create top modules which are partly graded
     grade_module_dict['PACKAGING'] = grade_module_dict['BUILD_EXISTS'] + grade_module_dict['BUILD_FILE_OK']
     grade_module_dict['TESTING'] = grade_module_dict['TESTING_EXISTENCE'] + grade_module_dict['TESTING_COVERAGE']
+    grade_module_dict['COMMENTING'] = round(grade_module_dict['COMMENTING_METHOD_COVERAGE'] + grade_module_dict[
+        'COMMENTING_LINE_COVERAGE'], 2)
 
     # factor grades in acordance to top mark
     for module in grade_module_dict:
@@ -52,15 +54,23 @@ def create_grade_file(grade_dict, repo, build):
         fp.write(repo)
         fp.write("\nGrades:")
         for module in TOP_MODULES:
-            fp.write(f"\n{module}:{grade_dict[repo][module]}")
+            fp.write(f"\n{module}:{round(grade_dict[repo][module], 2)}/{str(globals()[module] * TOP_MARK)}")
 
-        fp.write(f"\nPACKAGING was evaluated from:\n"
-                 f" -BUILD_EXISTS:{grade_dict[repo]['BUILD_EXISTS']}\n"
-                 f" -BUILD_FILE_OK:{grade_dict[repo]['BUILD_FILE_OK']}")
+        fp.write(f"\n\nPACKAGING was evaluated from:\n"
+                 f" -BUILD_EXISTS:{grade_dict[repo]['BUILD_EXISTS']}/{str(EXISTENCE_OF_BUILD_FILE * PACKAGING * TOP_MARK)}\n"
+                 f" -BUILD_FILE_OK:{grade_dict[repo]['BUILD_FILE_OK']}/{str(FILE_IS_WELL_FORMED * PACKAGING * TOP_MARK)}")
 
-        fp.write(f"\nTESTING was evaluated from:\n"
-                 f" -TESTING_COVERAGE:{grade_dict[repo]['TESTING_COVERAGE']}\n"
-                 f" -TESTING_EXISTENCE:{grade_dict[repo]['TESTING_EXISTENCE']}")
+        fp.write(f"\n\nTESTING was evaluated from:\n"
+                 f" -TESTING_COVERAGE:{round(grade_dict[repo]['TESTING_COVERAGE'], 2)}"
+                 f"/{str(TESTING_COVERAGE * TESTING * TOP_MARK)}\n"
+                 f" -TESTING_EXISTENCE:{round(grade_dict[repo]['TESTING_EXISTENCE'], 2)}"
+                 f"/{str(TESTING_EXISTENCE * TESTING * TOP_MARK)}")
+
+        fp.write(f"\n\nCOMMENTING was evaluated from:\n"
+                 f" -COMMENTING_METHOD_COVERAGE:{round(grade_dict[repo]['COMMENTING_METHOD_COVERAGE'], 2)}"
+                 f"/{str(PERCENTAGE_LINES_PER_COMMENT * COMMENTING * TOP_MARK)}\n"
+                 f" -COMMENTING_LINE_COVERAGE:{round(grade_dict[repo]['COMMENTING_LINE_COVERAGE'], 2)}"
+                 f"/{str(PERCENTAGE_METHOD_PER_COMMENT * COMMENTING * TOP_MARK)}\n")
 
         fp.write("\n\nBonuses:")
         for module in BONUS_MODULES:
