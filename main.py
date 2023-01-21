@@ -2,12 +2,13 @@ import os
 
 from github import Github
 
+import search
 import testing
 import contributing
 import licence
 import readme
 import build
-import features
+import code_quality
 from grades import *
 
 g = Github(os.environ['GITHUB_GPG_KEY'])
@@ -42,7 +43,9 @@ if __name__ == '__main__':
 
     # This loop will determine all the Repos in GitHub Repositories.txt grades
     for repo in repos:
-        print(f"[INFO] Now evaluating: {repo}")
+        java_files_exist = True
+
+        print(f"[INFO] Now evaluating: {repo} Please wait")
         # Evaluate README
         if READMES[repo] is not None:
             grades[repo] = grade_update(grades[repo], 'README', README)
@@ -90,6 +93,7 @@ if __name__ == '__main__':
         testing_ratio = testing.find_test_ratio(JAVA_TEST_COUNT[repo], JAVA_NON_TEST_COUNT[repo])
         if testing_ratio == -1:
             print(f"[WARNING] {repo} has no java files! That's an issue!")
+            java_files_exist = False
         # evaluate test raio
         if testing_ratio > 0.25:
             grades[repo] = grade_update(grades[repo], 'TESTING_COVERAGE', TESTING_COVERAGE * TESTING)
@@ -102,6 +106,52 @@ if __name__ == '__main__':
             grades[repo] = grade_update(grades[repo], 'GITHUB_FEATURES', GITHUB_FEATURES)
         else:
             grades[repo] = grade_update(grades[repo], 'GITHUB_FEATURES', 0)
+
+        if java_files_exist:
+            # Evaluate Comments and Code quality (CheckStyle)
+            # Get java file stats
+            repo_non_test_java_files = search.search_name_contains_return_file('.java', "Test", repo)
+            java_files_stats = code_quality.get_repository_java_files_stats(repo_non_test_java_files)
+            method_coverage_avg = 0
+            line_coverage_avg = 0
+            checkstyle_avg = 0
+
+            for java_file in java_files_stats:
+                # Evaluate Comments
+                (method_coverage_ok, line_coverage_ok) = code_quality.commenting_ok(java_files_stats[java_file])
+                # Method Coverage
+                if method_coverage_ok:
+                    method_coverage_avg += 1
+                else:
+                    pass
+
+                # Line Coverage
+                if line_coverage_ok:
+                    line_coverage_avg += 1
+                else:
+                    pass
+
+                # Evaluate Checkstyle
+                if code_quality.style_ok(java_files_stats[java_file]):
+                    checkstyle_avg += 1
+                else:
+                    pass
+
+            method_coverage_avg = method_coverage_avg / len(java_files_stats)
+            grades[repo] = grade_update(grades[repo], 'COMMENTING_METHOD_COVERAGE',
+                                        method_coverage_avg * PERCENTAGE_METHOD_PER_COMMENT * COMMENTING)
+
+            line_coverage_avg = line_coverage_avg / len(java_files_stats)
+            grades[repo] = grade_update(grades[repo], 'COMMENTING_LINE_COVERAGE',
+                                        line_coverage_avg * PERCENTAGE_LINES_PER_COMMENT * COMMENTING)
+
+            checkstyle_avg = checkstyle_avg / len(java_files_stats)
+            grades[repo] = grade_update(grades[repo], 'CHECKSTYLE',
+                                        checkstyle_avg * CHECKSTYLE)
+        else:
+            grades[repo] = grade_update(grades[repo], 'COMMENTING_METHOD_COVERAGE', 0)
+            grades[repo] = grade_update(grades[repo], 'COMMENTING_LINE_COVERAGE', 0)
+            grades[repo] = grade_update(grades[repo], 'CHECKSTYLE', 0)
 
         # finalise grades (sum low level modules to high level modules)
         grades[repo] = finalise_grades(grades[repo])
