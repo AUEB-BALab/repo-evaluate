@@ -16,7 +16,7 @@ def get_java_file_names_from_repo(repo_addresses):
     global_java_file_names = {}
     for address in repo_addresses:
         repo = g.get_repo(address)
-        files = search.search_name_contains(".java", repo)
+        files = search.search_name_contains_return_size(".java", repo)
         for file_name in files:
             if files[file_name] == 0:
                 files.pop(file_name)

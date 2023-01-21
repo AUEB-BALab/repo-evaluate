@@ -5,7 +5,7 @@ This module defines all methods which deal with finding files
 
 # Looks for names containing a specific element. For example .java
 # Returns file names and sizes in a dictionairy
-def search_name_contains(name_contains, repo):
+def search_name_contains_return_size(name_contains, repo):
     # recursively searching all the directories
     def search_directory(directory):
         contents = repo.get_contents(directory)
