@@ -10,7 +10,7 @@ g = Github(os.environ['GITHUB_GPG_KEY'])
 
 
 # Method gets licence file from git and decodes it
-def get_licence_files(repo_addresses):
+def get_licence_files(repo_addresses: list[str]) -> dict[str, str]:
     """Method gets multiple licence files from git and decodes them in utf-8 form.
     Then it adds these files to a dictionairy
 
