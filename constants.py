@@ -2,14 +2,15 @@
 This module defines some constant names. These are Percentiles of grades and threshold for different checks
 """
 # These are the high level modules that get graded
-TOP_MODULES = ['README', 'PACKAGING', 'TESTING']
+TOP_MODULES = ['README', 'PACKAGING', 'TESTING', 'COMMENTING', 'CHECKSTYLE']
 
 # These are the bonus modules
 BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBUTING_FILE', 'GITHUB_FEATURES']
 
 # These are the low level modules that get graded (for example PACKAGING is broken in to BUILD_EXISTS and BUILD_FILE_OK)
 FINAL_MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK', 'LICENCE_FILE',
-                 'CONTRIBUTING_FILE', 'TESTING_EXISTENCE', 'TESTING_COVERAGE', 'GITHUB_FEATURES']
+                 'CONTRIBUTING_FILE', 'TESTING_EXISTENCE', 'TESTING_COVERAGE', 'GITHUB_FEATURES',
+                 'COMMENTING_METHOD_COVERAGE','COMMENTING_LINE_COVERAGE', 'CHECKSTYLE']
 
 # Top marks (what is the highest grade possible)
 TOP_MARK = 10
@@ -29,7 +30,7 @@ FILE_IS_WELL_FORMED = 1 - EXISTENCE_OF_BUILD_FILE
 
 # Comments #
 PERCENTAGE_LINES_PER_COMMENT = 0.5
-PERCENTAGE_LINES_PER_METHOD = round(1 - PERCENTAGE_LINES_PER_COMMENT, 2)
+PERCENTAGE_METHOD_PER_COMMENT = round(1 - PERCENTAGE_LINES_PER_COMMENT, 2)
 
 # Testing #
 TESTING_EXISTENCE = 0.3
@@ -37,20 +38,19 @@ TESTING_COVERAGE = round(1 - TESTING_EXISTENCE, 2)
 
 # Internal Thresholds
 
-# Coverage: #
-PERCENT_OF_METHODS = 0.5
-PERCENT_OF_LINES = 0.25
-
 # Comments #
-LINES_PER_COMMENT = 10
+LINES_PER_COMMENT = 15
 METHODS_PER_COMMENT = 1
 
 # Testing #
 TEST_CLASS_PER_NORMAL_CLASS = 0.5
 
+# CheckStyle (NO JAVADOC CHECKS!)
+CHECKSTYLE_ERRORS_PER_LINE = 1/30
+
 # TODO check if this is something we would like. Otherwise flag for removal.
 #   This could change year on year to not be taken advantage of.
-# Bonus points as a precentile of Top marks
+# Bonus points as a percentile of Top marks
 LICENCE_FILE = 0.01
 CONTRIBUTING_FILE = 0.01
 BIG_README = 0.01
@@ -61,5 +61,5 @@ GITHUB_FEATURES = 0.01  # Issues, actions, wiki , projects
 BIG_README_SIZE = 1500
 FACTOR_README_MARKDOWN = 1.08  # has to be X times bigger that raw data to be considered good
 
-# Requirments
+# Requirements
 MINIMUM_AMOUNT_OF_COMMITS = 50
