@@ -1,11 +1,13 @@
 """
 This module defines all methods which look for usage of GitHub features.
 Such as Issues, Actions, Projects or Workflows.
-Also, it can get some statistics (contributors, commits)
+Also, it can also check if some requiermnts are met (amount of commits and contributors)
 """
 import os
 
 from github import Github
+
+from constants import *
 
 g = Github(os.environ['GITHUB_GPG_KEY'])
 
@@ -60,3 +62,17 @@ def repo_uses_github_features(repository_address) -> bool:
         return True
     else:
         return False
+
+
+def commit_count_ok(repository_address) -> bool:
+    repo = g.get_repo(repository_address)
+    return repo.get_commits().totalCount > MINIMUM_AMOUNT_OF_COMMITS
+
+
+def contributor_count_ok(repository_address) -> bool:
+    repo = g.get_repo(repository_address)
+    return repo.get_contributors().totalCount > 7 # fixme temporarily is set to 7
+#   return repo.get_contributors().totalCount > MINIMUM_AMOUNT_OF_CONTRIBUTORS
+#    OR
+#    return repository_address.get_contributors().totalCount > MINIMUM_AMOUNT_OF_CONTRIBUTORS_FACTOS * CONTRIBUTORS_AMOUNT(
+#        repository_address)
