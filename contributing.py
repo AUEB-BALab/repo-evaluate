@@ -9,8 +9,15 @@ from github.GithubException import UnknownObjectException
 g = Github(os.environ['GITHUB_GPG_KEY'])
 
 
-# Method gets licence file from git and decodes it
-def get_contributing_files(repo_addresses):
+def get_contributing_files(repo_addresses: list[str]) -> dict[str, str]:
+    """Method gets multiple contributing files from git and decodes them in utf-8 form.
+    Then it adds these files to a dictionairy
+
+    :param repo_addresses: repository addresses in a list formatted as ['author1/name1', 'author2/name2'...]
+    :type repo_addresses: list[str]
+    :return: A dictionairy from a repository address to its contributing file
+    :rtype dict[str, str]
+    """
     contributing_files = {}
     for address in repo_addresses:
         repo = g.get_repo(address)
