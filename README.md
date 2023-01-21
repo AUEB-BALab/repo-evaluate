@@ -11,8 +11,9 @@ by dspinellis
 * Commenting
 * Code quality
 
-#### It will also find:
+#### It will also find if the following surpass specific thresholds:
 * The number of contributors 
+* The number of commits
 
 #### It will give grade bonuses for:
 * LICENCE file existence (•)
