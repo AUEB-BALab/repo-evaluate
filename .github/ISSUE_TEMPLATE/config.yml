@@ -1,0 +1,9 @@
+blank_issues_enabled: true
+contact_links:
+  - name: GitHub Community Support
+    url: https://github.com/orgs/community/discussions
+    about: Please ask and answer questions here.
+  - name: Me - Panos Daskalopoulos
+    email: t8210031@aueb.gr
+    about: Please report security vulnerabilities or exploits here. Dont publiclly post about them before a patch is issued
+    
