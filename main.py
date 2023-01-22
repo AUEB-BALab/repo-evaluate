@@ -4,9 +4,9 @@ from github import Github
 
 import search
 import testing
-import contributing
-import licence
-import readme
+import contributing_scraper
+import licence_scraper
+import readme_scraper
 import build
 import code_quality
 from grades import *
