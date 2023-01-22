@@ -63,5 +63,5 @@ by [dspinellis](https://github.com/dspinellis/).
 - Unless otherwise stated all of this repository is covered by the EUROPEAN UNION PUBLIC LICENCE v. 1.2
 - My permanent address is in Greece, so as per EUPL v1.2 the governing law is the Greek law
 - You are required to read what is stated in
-  the [LICENCE.md](https://github.com/panos1b/Vathmologia_Ergasion/blob/master/LICENSE.md) before using this repository
+  the [LICENCE.md](https://github.com/panos1b/Vathmologia_Ergasion/blob/master/docs/LICENSE.md) before using this repository
   in any way
