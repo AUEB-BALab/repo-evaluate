@@ -3,6 +3,7 @@ This module defines all methods which deal with BUILDS
 """
 import os
 import subprocess
+import re
 
 from github import Github
 from github.GithubException import UnknownObjectException
@@ -214,3 +215,31 @@ def validate_kotlin_build(build_file_string: str, repo: str) -> bool:
     if result.returncode != 0:
         gradle_build_failure(repo, result.stderr.decode("utf-8"))
     return result.returncode == 0
+
+
+def checkstyle_exists(build_file_string: str) -> bool:
+    """
+    This method takes a build file string as an input, and looks for 'checkstyle' decalration in it using a
+    regular expression.
+    It returns a Boolean value, True if the word 'checkstyle' is found, False otherwise.
+
+    :param build_file_string: The build file string to be searched
+    :type build_file_string: str
+    :return: Boolean value indicating whether the word 'checkstyle' was found or not
+    :rtype: bool
+    """
+    return not (re.search(r'checkstyle', build_file_string, re.IGNORECASE) is None)
+
+
+def spotbugs_exists(build_file_string: str) -> bool:
+    """
+    This method takes a build file string as an input, and looks for 'spotbugs' declaration in it using a
+    regular expression.
+    It returns a Boolean value, True if the word 'spotbugs' is found, False otherwise.
+
+    :param build_file_string: The build file string to be searched
+    :type build_file_string: str
+    :return: Boolean value indicating whether the word 'spotbugs' was found or not
+    :rtype: bool
+    """
+    return not (re.search(r'spotbugs', build_file_string, re.IGNORECASE) is None)
