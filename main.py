@@ -245,6 +245,7 @@ if __name__ == '__main__':
         tmprepo = g.get_repo(repo)
         csv_list.append(tmprepo.get_commits().totalCount)  # Commits total number
         csv_list.append(tmprepo.get_contributors().totalCount)  # Contributors total number
+        csv_list.append(len(list(tmprepo.get_branches())))  # Branches total number
         csvcreator.add(csv_list)
 
     for repo in repos:
