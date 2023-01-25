@@ -87,8 +87,8 @@ def get_java_file_stats(contents: str, main_class: str) -> dict[str, int]:
     results = {
         'NUMBER_OF_METHODS': count_methods(contents),
         'NUMBER_OF_COMMENTS': count_comments(contents),
-        'NUMBER_OF_LINES': count_lines(contents),
     }
+    results['NUMBER_OF_LINES'] = count_lines(contents) - results['NUMBER_OF_COMMENTS']
     return results
 
 
