@@ -1,5 +1,6 @@
 import os
 
+import modularity as modularity
 from github import Github
 
 import continuous_integration
@@ -199,13 +200,19 @@ if __name__ == '__main__':
             grades[repo] = grade_update(grades[repo], 'COMMENTING_LINE_COVERAGE',
                                         line_coverage_avg * PERCENTAGE_LINES_PER_COMMENT * COMMENTING)
 
+            csv_list.append(method_number)
+            modularity = method_number / len(java_files_stats)
+            grades[repo] = grade_update(grades[repo], 'MODULARITY',
+                                        MODULARITY)
+
 
 
         else:
             grades[repo] = grade_update(grades[repo], 'COMMENTING_METHOD_COVERAGE', 0)
-            csv_list.append(0)
+            csv_list.append(0)  # comments
             grades[repo] = grade_update(grades[repo], 'COMMENTING_LINE_COVERAGE', 0)
-            csv_list.append(0)
+            csv_list.append(0)  # lines
+            csv_list.append(0)  # methods
 
         if build.checkstyle_exists(str(BUILD_FILES[repo])):
             grades[repo] = grade_update(grades[repo], 'CHECKSTYLE', 1)

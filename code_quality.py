@@ -6,10 +6,11 @@ import re
 import shutil
 import subprocess
 
+import javalang
+
 from constants import *
 
 
-# FIXME methods are not counted correctly sometimes underestimated...
 def count_methods(contents: str) -> int:
     """
     Counts how many methods a java source code file contains
@@ -19,22 +20,11 @@ def count_methods(contents: str) -> int:
     :return: The method count
     :rtype: int
     """
-    # regex pattern is an adaptation of the patterns found at
-    # https://gist.github.com/nrosner/70bed930684f467dddd5fc68cbf39e82
-    # Those patterns didn't work but the adapted version does most of the time...
-
-    regex_type = r'[a-zA-Z0-9.<>, ?$[\]]+'
-    pattern = re.compile(
-        r'^(?:(public|private|protected) )?((?:static|abstract|final|void) ?)*(?:(' + regex_type + ') )?([a-zA-Z]+)\\(([^\\)]*)\\)')
-
+    tree = javalang.parse.parse(contents)
     method_count = 0
-    for line in contents.splitlines():
-        matches = pattern.findall(line)
-        if len(matches) > 0:
+    for path, node in tree:
+        if isinstance(node, javalang.tree.MethodDeclaration):
             method_count += 1
-
-    if method_count == 0:  # FIXME temp patch
-        method_count = 2
 
     return method_count
 
@@ -83,50 +73,6 @@ def count_lines(contents: str) -> int:
     return len(lines)
 
 
-def check_style(contents: str, class_name: str) -> int:
-    """
-    Checks weather a java file follows check_style sun rules (except Javadoc)
-    and returns the amount of errors it encountered
-
-    :param contents: The contents of the Java file
-    :param class_name: The public class name that the file contains
-    :return: The heck_style error count
-    :rtype: int
-    """
-    check_style_path = './resources/CheckStyle'
-    path = os.path.join(check_style_path, 'temp')
-    filepath = os.path.join(path, f"{class_name}.java")
-    try:
-        os.mkdir(path)
-        os.remove(filepath)
-    except FileNotFoundError:
-        pass
-    except FileExistsError:
-        pass
-
-    with open(filepath, 'w+') as fp:
-        fp.write(contents)
-
-    command = ["java", "-jar", f"{check_style_path}/checkstyle-10.6.0-all.jar", "-c",
-               f'{check_style_path}/sun_no_javadoc.xml',
-               filepath]
-    output = subprocess.run(command, capture_output=True, text=True).stdout
-    errors = output.count("ERROR")
-    return errors
-
-
-def clean_temporary_checkstyle_java_files() -> None:
-    """
-    Deletes all the temporary java files needed for checkstyle checks
-
-    :return: None
-    """
-    try:
-        shutil.rmtree('./resources/CheckStyle/temp')
-    except FileNotFoundError:
-        pass
-
-
 def get_java_file_stats(contents: str, main_class: str) -> dict[str, int]:
     """
     Takes a java file and the name of its public class and returns a dictionary with statistics about it
@@ -142,9 +88,7 @@ def get_java_file_stats(contents: str, main_class: str) -> dict[str, int]:
         'NUMBER_OF_METHODS': count_methods(contents),
         'NUMBER_OF_COMMENTS': count_comments(contents),
         'NUMBER_OF_LINES': count_lines(contents),
-        'CHECKSTYLE_ERRORS': check_style(contents, main_class)
     }
-    clean_temporary_checkstyle_java_files()
     return results
 
 
@@ -174,8 +118,11 @@ def commenting_ok(stats_dict: dict[str, int]) -> (bool, bool):
     :param stats_dict: Dictionairy of a java files statistics
     :return: Boolean tuple (method_coverage, line_coverage). True where criteria met, else False
     """
-    comments_per_method_ok = stats_dict['NUMBER_OF_COMMENTS'] / stats_dict[
-        'NUMBER_OF_METHODS'] > 1 / METHODS_PER_COMMENT
+    try:
+        comments_per_method_ok = stats_dict['NUMBER_OF_COMMENTS'] / stats_dict[
+            'NUMBER_OF_METHODS'] > 1 / METHODS_PER_COMMENT
+    except ZeroDivisionError:  # This means the class doesn't have any methods. Most likely deals with graphics
+        comments_per_method_ok = True
+
     comments_per_line_ok = stats_dict['NUMBER_OF_COMMENTS'] / stats_dict['NUMBER_OF_LINES'] > 1 / LINES_PER_COMMENT
     return comments_per_method_ok, comments_per_line_ok
-
