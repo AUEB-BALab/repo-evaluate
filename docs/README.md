@@ -15,8 +15,9 @@ by [dspinellis](https://github.com/dspinellis/).
     * Packaging file existence
     * Packaging file formation
 - Commenting
-- Code quality
-    * Via CheckStyle
+- CheckStyle and SpotBugs usage
+- Continuous Integration usage
+    * Travis CI, GitHub Actions or Circle CI
 
 #### It will also grade as a bonus:
 
@@ -30,6 +31,9 @@ by [dspinellis](https://github.com/dspinellis/).
 
 * The number of contributors
 * The number of commits
+
+#### CSV:
+- Raw data from all the grading will be outed to a `.CSV` file which can be used for anything
 
 #### Usage:
 
@@ -63,5 +67,6 @@ by [dspinellis](https://github.com/dspinellis/).
 - Unless otherwise stated all of this repository is covered by the EUROPEAN UNION PUBLIC LICENCE v. 1.2
 - My permanent address is in Greece, so as per EUPL v1.2 the governing law is the Greek law
 - You are required to read what is stated in
-  the [LICENCE.md](https://github.com/panos1b/Vathmologia_Ergasion/blob/master/docs/LICENSE.md) before using this repository
+  the [LICENCE.md](https://github.com/panos1b/Vathmologia_Ergasion/blob/master/docs/LICENSE.md) before using this
+  repository
   in any way
