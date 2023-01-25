@@ -72,7 +72,6 @@ def repo_uses_actions(repo_address: str) -> bool:
 
     # Set the GitHub API endpoint
     restful_endpoint = f'https://api.github.com/repos/{repo_address}/actions/runs'
-
-    response = requests.get(restful_endpoint, headers={'Authorization': os.environ['GITHUB_GPG_KEY']})
+    response = requests.get(restful_endpoint, headers={'Authorization': 'Bearer ' + os.environ['GITHUB_GPG_KEY']})
     total_actions_count = json.loads(response.text)['total_count']
     return total_actions_count > 0

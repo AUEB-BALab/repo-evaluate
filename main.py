@@ -201,9 +201,11 @@ if __name__ == '__main__':
                                         line_coverage_avg * PERCENTAGE_LINES_PER_COMMENT * COMMENTING)
 
             csv_list.append(method_number)
-            modularity = method_number / len(java_files_stats)
-            grades[repo] = grade_update(grades[repo], 'MODULARITY',
-                                        MODULARITY)
+            modularity = line_number / method_number
+            if modularity < MODULARITY_AVG_METHOD_SIZE:
+                grades[repo] = grade_update(grades[repo], 'MODULARITY', MODULARITY)
+            else:
+                grades[repo] = grade_update(grades[repo], 'MODULARITY', 0)
 
 
 
