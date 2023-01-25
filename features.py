@@ -4,6 +4,7 @@ Such as Issues, Actions, Projects or Workflows.
 Also, it can also check if some requirements are met (amount of commits and contributors)
 """
 import os
+import continuous_integration
 
 from github import Github
 
@@ -52,28 +53,6 @@ def repo_uses_workflows(repo_address: str) -> bool:
     return repo.get_workflow_runs().totalCount > 0
 
 
-def repo_uses_actions(repo_address: str) -> bool:
-    """
-    Returns weather or not a repository uses GitHub feature Actions
-
-    :param repo_address: repository address in format 'author/name'
-    :return: True if it uses Actions, False if not
-    :rtype: bool
-    """
-
-    # Actions are not available as a part of the python wrapper for
-    # GitHub RESTful API, so we need to directly request them using HTTP requests
-
-    # Imports happen here in order to not strain the whole module if this never runs!
-    import requests
-    import json
-
-    # Set the GitHub API endpoint
-    restful_endpoint = f'https://api.github.com/repos/{repo_address}/actions/runs'
-
-    response = requests.get(restful_endpoint, headers={'Authorization': os.environ['GITHUB_GPG_KEY']})
-    total_actions_count = json.loads(response.text)['total_count']
-    return total_actions_count > 0
 
 
 def repo_uses_github_features(repository_address: str) -> bool:
@@ -93,7 +72,7 @@ def repo_uses_github_features(repository_address: str) -> bool:
         return True
     elif repo_uses_projects(repository_address):
         return True
-    elif repo_uses_actions(repository_address):
+    elif continuous_integration.repo_uses_actions(repository_address):
         return True
     else:
         return False
