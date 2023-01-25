@@ -7,7 +7,7 @@ by [dspinellis](https://github.com/dspinellis/).
 
 #### It will grade the following
 
-- README file existence
+- README
 - Testing
     * Test code existence
     * Test code coverage
@@ -15,9 +15,10 @@ by [dspinellis](https://github.com/dspinellis/).
     * Packaging file existence
     * Packaging file formation
 - Commenting
-- CheckStyle and SpotBugs usage
-- Continuous Integration usage
+- CheckStyle and SpotBugs
+- Continuous Integration
     * Travis CI, GitHub Actions or Circle CI
+- Modularity
 
 #### It will also grade as a bonus:
 
