@@ -2,7 +2,7 @@
 This module defines some constant names. These are Percentiles of grades and threshold for different checks
 """
 # These are the high level modules that get graded
-TOP_MODULES = ['README', 'PACKAGING', 'TESTING', 'COMMENTING', 'CHECKSTYLE']
+TOP_MODULES = ['README', 'PACKAGING', 'TESTING', 'COMMENTING', 'CHECKSTYLE', 'SPOTBUGS', 'CI']
 
 # These are the bonus modules
 BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBUTING_FILE', 'GITHUB_FEATURES']
@@ -10,15 +10,23 @@ BONUS_MODULES = ['BIG_README', 'README_USES_MARKDOWN', 'LICENCE_FILE', 'CONTRIBU
 # These are the low level modules that get graded (for example PACKAGING is broken in to BUILD_EXISTS and BUILD_FILE_OK)
 FINAL_MODULES = ['README', 'BIG_README', 'README_USES_MARKDOWN', 'BUILD_EXISTS', 'BUILD_FILE_OK', 'LICENCE_FILE',
                  'CONTRIBUTING_FILE', 'TESTING_EXISTENCE', 'TESTING_COVERAGE', 'GITHUB_FEATURES',
-                 'COMMENTING_METHOD_COVERAGE','COMMENTING_LINE_COVERAGE', 'CHECKSTYLE']
+                 'COMMENTING_METHOD_COVERAGE', 'COMMENTING_LINE_COVERAGE', 'CHECKSTYLE', 'SPOTBUGS', 'CI']
+
+# Headers for the CSV file
+CSV_HEADERS = ['REPOSITORY ADDRESS', 'README EXISTS', 'README IS BIG', 'README USES MARKDOWN', 'LICENCE FILE EXISTS',
+               'CONTRIBUTING FILE EXISTS', 'BUILD FILE EXISTS', 'BUILD FILE IS OK', 'TEST FILES EXIST',
+               'TEST CLASSES', 'NON TEST CLASSES', 'USES GITHUB FEATURES', 'NUMBER OF COMMENTS',
+               'NUMBER OF LINES', 'CHECKSTYLE', 'SPOTBUGS', 'CI', 'COMMITS TOTAL COUNT', 'CONTRIBUTORS TOTAL COUNTS']
 
 # Top marks (what is the highest grade possible)
 TOP_MARK = 10
 
 # Percentiles of each assignment
-CHECKSTYLE = 0.15
-TESTING = 0.25
-PACKAGING = 0.3
+CHECKSTYLE = 0.1
+SPOTBUGS = 0.1
+CI = 0.1
+TESTING = 0.2
+PACKAGING = 0.25
 README = 0.2
 COMMENTING = round(1 - (CHECKSTYLE + TESTING + PACKAGING + README), 2)
 
@@ -44,9 +52,6 @@ METHODS_PER_COMMENT = 1
 
 # Testing #
 TEST_CLASS_PER_NORMAL_CLASS = 0.5
-
-# CheckStyle (NO JAVADOC CHECKS!)
-CHECKSTYLE_ERRORS_PER_LINE = 1/30
 
 # TODO check if this is something we would like. Otherwise flag for removal.
 #   This could change year on year to not be taken advantage of.
