@@ -9,12 +9,13 @@ def grade_update(current_grade_dict: dict[str, float], module: str, grade: float
     """
     Function takes the grade dictionary and updates it with the new grade added to a module
     :param current_grade_dict: The grade dictionairy which need to be updated
-    :param module: the grading module which is beeing updated
+    :param module: the grading module which is being updated
     :param grade: the grade which was received in the module
     :return: The updated grade dictionairy
     """
     current_grade_dict[module] = grade
     return current_grade_dict
+
 
 
 def initialise_grade_dictionary(github_repositories: list[str]) -> dict[str, dict[str, float]]:
