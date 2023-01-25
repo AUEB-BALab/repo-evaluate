@@ -37,7 +37,7 @@ def search_name_contains_return_size(name_contains: str, repo) -> dict[str, int]
 def search_name_contains_return_file(name_contains: str, name_doesnt_contain: str, repo_address: str):
     """
     Looks for names containing a specific element. For example '.java'
-    Returns file names and sizes in a dictionairy
+    Returns file names and contents in a dictionairy
 
     :return: A dictionairy from file name to size of file
     :param name_contains: What the name shall contain
@@ -66,6 +66,7 @@ def search_name_matches(file_name: str, repo) -> str:
     """
     Looks for a  file everywhere in a repository
     Returns file contents
+
     :param file_name: The exact name of the file
     :param repo: The repository
     :type repo: Repository
