@@ -39,7 +39,7 @@ def count_methods(contents: str) -> int:
     return method_count
 
 
-# Counts how many comments a java file passes as a string contains
+# Counts how many comments a java file passed as a string contains
 def count_comments(contents: str) -> int:
     """
     Counts how many comments a java file passes as a string contains
@@ -179,13 +179,3 @@ def commenting_ok(stats_dict: dict[str, int]) -> (bool, bool):
     comments_per_line_ok = stats_dict['NUMBER_OF_COMMENTS'] / stats_dict['NUMBER_OF_LINES'] > 1 / LINES_PER_COMMENT
     return comments_per_method_ok, comments_per_line_ok
 
-
-def style_ok(stats_dict: dict[str, int]) -> bool:
-    """
-    Checks if a java file has less than required checkstyle error count
-
-    :param stats_dict: Dictionairy of a java files statistics
-    :return: Boolean value which is True when criteria met, else False
-    """
-
-    return stats_dict['CHECKSTYLE_ERRORS'] / stats_dict['NUMBER_OF_LINES'] < CHECKSTYLE_ERRORS_PER_LINE
