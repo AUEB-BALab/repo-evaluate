@@ -48,7 +48,6 @@ by [dspinellis](https://github.com/dspinellis/).
 - You must have an environmental variable `GITHUB_GPG_KEY` with your GitHub GPG key otherwise you will hit the GitHub
   API limit pretty fast
 - PowerShell is used and must be installed (by default It's available on Windows)
-- Java must be installed in order to evaluate Checkstyle
 - Gradle must be installed in order to evaluate Gradle builds
 
 #### Contributing:
