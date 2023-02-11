@@ -1,10 +1,6 @@
 """
 This module defines all methods which deal with grading code quality
 """
-import os
-import re
-import shutil
-import subprocess
 
 import javalang
 
@@ -20,7 +16,10 @@ def count_methods(contents: str) -> int:
     :return: The method count
     :rtype: int
     """
-    tree = javalang.parse.parse(contents)
+    try:
+        tree = javalang.parse.parse(contents)
+    except javalang.parser.JavaSyntaxError:
+        return 0
     method_count = 0
     for path, node in tree:
         if isinstance(node, javalang.tree.MethodDeclaration):
