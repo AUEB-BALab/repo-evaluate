@@ -1,11 +1,9 @@
-## Vathmologia Ergasion
-
-This is a Python application which aims at partly grading the semester assignments for the Programming II class taught
-by [dspinellis](https://github.com/dspinellis/).
+## Repository evaluation
+This is a Python application that evaluates the quality of work done in specified repositories to aid grading corresponding assignments.
 
 ### Features
 
-#### It will grade the following
+#### The program evaluates the following aspects:
 
 - README
 - Testing
@@ -20,7 +18,7 @@ by [dspinellis](https://github.com/dspinellis/).
     * Travis CI, GitHub Actions or Circle CI
 - Modularity
 
-#### It will also grade as a bonus:
+#### It will also evaluate as a bonus:
 
 * LICENCE file existence
 * CONTRIBUTING file existence
@@ -34,11 +32,11 @@ by [dspinellis](https://github.com/dspinellis/).
 * The number of commits
 
 #### CSV:
-- Raw data from all the grading will be outed to a `.CSV` file which can be used for anything
+- Raw data from all the evaluation will be output to a `.CSV` file which can be used for visualisation and grading
 
 #### Usage:
 
-1) In `resources/GitHub Repositories.txt`  place the repositories you want to grade
+1) In `resources/GitHub Repositories.txt`  place the repositories you want to evaluate
 2) Tweak the constants in `constants.py` to your liking
 3) Run `main.py`
 4) Results are outputted to the `./results` folder
