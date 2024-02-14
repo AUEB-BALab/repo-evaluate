@@ -1,6 +1,5 @@
 import os
 
-import modularity as modularity
 from github import Github
 
 import continuous_integration
@@ -217,14 +216,14 @@ if __name__ == '__main__':
             csv_list.append(0)  # methods
 
         if build.checkstyle_exists(str(BUILD_FILES[repo])):
-            grades[repo] = grade_update(grades[repo], 'CHECKSTYLE', 1)
+            grades[repo] = grade_update(grades[repo], 'CHECKSTYLE', CHECKSTYLE)
             csv_list.append(1)
         else:
             grades[repo] = grade_update(grades[repo], 'CHECKSTYLE', 0)
             csv_list.append(0)
 
         if build.spotbugs_exists(str(BUILD_FILES[repo])):
-            grades[repo] = grade_update(grades[repo], 'SPOTBUGS', 1)
+            grades[repo] = grade_update(grades[repo], 'SPOTBUGS', SPOTBUGS)
             csv_list.append(1)
         else:
             grades[repo] = grade_update(grades[repo], 'SPOTBUGS', 0)
@@ -232,7 +231,7 @@ if __name__ == '__main__':
 
         # Evaluate CI usage
         if CONTINUOUS_INTEGRATION[repo]:
-            grades[repo] = grade_update(grades[repo], 'CI', 1)
+            grades[repo] = grade_update(grades[repo], 'CI', CI)
             csv_list.append(1)
         else:
             grades[repo] = grade_update(grades[repo], 'CI', 0)

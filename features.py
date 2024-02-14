@@ -53,8 +53,6 @@ def repo_uses_workflows(repo_address: str) -> bool:
     return repo.get_workflow_runs().totalCount > 0
 
 
-
-
 def repo_uses_github_features(repository_address: str) -> bool:
     """
     Checks if a repository has used a GitHub feature (actions, issues etc).
@@ -100,9 +98,8 @@ def contributor_count_ok(repository_address) -> bool:
      :rtype: bool
      """
     repo = g.get_repo(repository_address)
-    return repo.get_contributors().totalCount > 4  # fixme temporarily is set to 4, consider the following
+    return repo.get_contributors().totalCount > MINIMUM_AMOUNT_OF_CONTRIBUTORS
 
-#   return repo.get_contributors().totalCount > MINIMUM_AMOUNT_OF_CONTRIBUTORS
 #   OR
 #   return repository_address.get_contributors().totalCount > MINIMUM_AMOUNT_OF_CONTRIBUTORS_FACTORS *
 #   CONTRIBUTORS_AMOUNT(repository_address)

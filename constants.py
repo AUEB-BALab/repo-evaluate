@@ -73,3 +73,4 @@ FACTOR_README_MARKDOWN = 1.02  # has to be X times bigger that raw data to be co
 
 # Requirements
 MINIMUM_AMOUNT_OF_COMMITS = 50
+MINIMUM_AMOUNT_OF_CONTRIBUTORS = 4

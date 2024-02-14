@@ -85,15 +85,15 @@ def create_grade_file(grade_dict: dict[str, float], repo: str, build: str) -> No
 
         fp.write(f"\n\nTESTING was evaluated from:\n"
                  f" -TESTING_COVERAGE:{round(grade_dict[repo]['TESTING_COVERAGE'], 2)}"
-                 f"/{str(TESTING_COVERAGE * TESTING * TOP_MARK)}\n"
+                 f"/{str(round(TESTING_COVERAGE * TESTING * TOP_MARK, 2))}\n"
                  f" -TESTING_EXISTENCE:{round(grade_dict[repo]['TESTING_EXISTENCE'], 2)}"
-                 f"/{str(TESTING_EXISTENCE * TESTING * TOP_MARK)}")
+                 f"/{str(round(TESTING_EXISTENCE * TESTING * TOP_MARK, 2))}")
 
         fp.write(f"\n\nCOMMENTING was evaluated from:\n"
                  f" -COMMENTING_METHOD_COVERAGE:{round(grade_dict[repo]['COMMENTING_METHOD_COVERAGE'], 2)}"
-                 f"/{str(PERCENTAGE_LINES_PER_COMMENT * COMMENTING * TOP_MARK)}\n"
+                 f"/{str(round(PERCENTAGE_LINES_PER_COMMENT * COMMENTING * TOP_MARK, 2))}\n"
                  f" -COMMENTING_LINE_COVERAGE:{round(grade_dict[repo]['COMMENTING_LINE_COVERAGE'], 2)}"
-                 f"/{str(PERCENTAGE_METHOD_PER_COMMENT * COMMENTING * TOP_MARK)}\n")
+                 f"/{str(round(PERCENTAGE_METHOD_PER_COMMENT * COMMENTING * TOP_MARK, 2))}\n")
 
         fp.write("\n\nBonuses:")
         for module in BONUS_MODULES:
