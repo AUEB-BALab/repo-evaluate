@@ -1,5 +1,5 @@
 ## Repository evaluation
-This is a Python application that evaluates the quality of work done in specified repositories to aid grading corresponding assignments.
+This is a Python application that evaluates the quality of work done in the specified repositories to aid in grading the Programming II team assignments.
 
 ### Features
 
@@ -33,9 +33,9 @@ This is a Python application that evaluates the quality of work done in specifie
 
 #### CSV:
 
-- Raw data from all the evaluation will be output to a `.CSV` file which can be used for visualisation and grading
+- Raw data from all the evaluation will be outputed to a `.csv` file which can be used for visualisation and grading
 
-#### Building:
+### Building:
 
 - This project uses [Python Poetry](https://python-poetry.org/) for dependency management whilst including a poetry.lock file
 - There are 2 ways you can build the project:
@@ -46,7 +46,7 @@ This is a Python application that evaluates the quality of work done in specifie
      - _Keep in mind that pip will not use the lock file to determine dependency versions, therefore issues with newer versions may surface. Also, no run instructions will be given bellow. You are on your own_
 
 
-#### Usage:
+### Usage:
 
 1) In `repo_evaluate/resources/GitHub Repositories.txt`  place the repositories you want to evaluate. Each on a new line.
 2) Tweak the constants in `repo_evaluate/resources/constants.py` to your liking
@@ -54,19 +54,19 @@ This is a Python application that evaluates the quality of work done in specifie
     * _Replace python with your python installation name if it differs_
 4) Results are outputted to the `repo_evaluate/results` folder
 
-#### Requirements
+### Requirements
 
-- You must have an environmental variable `GITHUB_GPG_KEY` with your GitHub GPG key otherwise you will hit the GitHub
+- You must have an environmental variable `GITHUB_GPG_KEY` with your [GitHub Pesonal Acess Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) otherwise you will hit the GitHub
   API limit pretty fast
 - PowerShell is used and must be installed (by default It's available on Windows)
 - Gradle must be installed in order to evaluate Gradle builds
   - The last 2 requirements are optional, if ignored Gradle and Kotlin builds will just always fail
 
-#### Contributing:
+### Contributing:
 
 - Outsider contributing to this repository is not open at the moment
 
-#### Limitations
+### Limitations
 
 - Gradle validation doesn't work 100% of the time. When a Gradle build fails standard error is saved to sort manually
   later
@@ -74,7 +74,7 @@ This is a Python application that evaluates the quality of work done in specifie
   in java files
 - The number of contributors required is currently set as a hard number not a factor of group participants
 
-#### Licencing
+### Licencing
 
 - Unless otherwise stated all of this repository is covered by the EUROPEAN UNION PUBLIC LICENCE v. 1.2
 - My permanent address is in Greece, so as per EUPL v1.2 the governing law is the Greek law
