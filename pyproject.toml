@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "repo_evaluate"
+version = "1.0.0"
+description = "This is a Python application that evaluates the quality of work done in specified repositories to aid grading corresponding assignments."
+authors = ["Panos Daskalopoulos <PanosDask03@gmail.com>"]
+license = "EUPL-1.2"
+readme = "docs/README.md"
+repository = "https://github.com/AUEB-BALab/repo-evaluate"
+include = ["docs/LICENSE.md"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+PyGithub = "^2.2.0"
+lxml = "^5.1.0"
+javalang = "^0.13.0"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/AUEB-BALab/repo-evaluate/issues"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
