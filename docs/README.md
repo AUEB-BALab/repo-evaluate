@@ -37,7 +37,7 @@ This is a Python application that evaluates the quality of work done in specifie
 
 #### Building:
 
-- This project uses [Python Poetry](https://python-poetry.org/) for dependancy maangment whilts including a poetry.lock file
+- This project uses [Python Poetry](https://python-poetry.org/) for dependency management wilts including a poetry.lock file
 - There are 2 ways you can build the project:
   1) Using Poetry
      - Run `poetry install`
