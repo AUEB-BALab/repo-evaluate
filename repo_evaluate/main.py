@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
             match BUILD_TOOLS[repo]:
                 case "Maven":
-                    if build.validate_maven_pom(str(BUILD_FILES[repo]), "./resources/maven-4.0.0.xsd"):
+                    if build.validate_maven_pom(str(BUILD_FILES[repo]), "resources/maven-4.0.0.xsd"):
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] = grade_update(grades[repo], 'BUILD_FILE_OK', FILE_IS_WELL_FORMED * PACKAGING)
                         csv_list.append(1)
