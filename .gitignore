@@ -1,4 +1,4 @@
-repo_evaluate/resources/
-repo_evaluate/results/
+repo_evaluate/resources/*
+repo_evaluate/results/*
 !repo_evaluate/results/.gitkeep
 !repo_evaluate/resources/maven-4.0.0.xsd
