@@ -13,7 +13,7 @@ def initialise(headers):
     :return: None
     :rtype: None
     """
-    with open('./results/result.csv', 'w', newline='') as f:
+    with open('./repo_evaluate/results/result.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(headers)
 
@@ -27,6 +27,6 @@ def add(data):
        :return: None
        :rtype: None
     """
-    with open('./results/result.csv', 'a', newline='') as f:
+    with open('./repo_evaluate/results/result.csv', 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)

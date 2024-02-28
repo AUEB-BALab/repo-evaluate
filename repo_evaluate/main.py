@@ -29,7 +29,7 @@ def get_repo_addresses(file_location: str) -> list[str]:
 
 
 if __name__ == '__main__':
-    repos = get_repo_addresses("resources/GitHub Repositories.txt")
+    repos = get_repo_addresses("repo_evaluate/resources/GitHub Repositories.txt")
     print("[INFO] Scraping GitHub. This might take some time!")
     print("[INFO]   Progress: 0%")
     grades = initialise_grade_dictionary(repos)
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
             match BUILD_TOOLS[repo]:
                 case "Maven":
-                    if build.validate_maven_pom(str(BUILD_FILES[repo]), "resources/maven-4.0.0.xsd"):
+                    if build.validate_maven_pom(str(BUILD_FILES[repo]), "repo_evaluate/resources/maven-4.0.0.xsd"):
                         # We use the percent of the file being well-formed times the points packaging gets
                         grades[repo] = grade_update(grades[repo], 'BUILD_FILE_OK', FILE_IS_WELL_FORMED * PACKAGING)
                         csv_list.append(1)
@@ -249,7 +249,7 @@ if __name__ == '__main__':
 
     for repo in repos:
         print(f"[INFO] Now creating result file for: {repo}")
-        path = f"./results/{repo}"
+        path = f"./repo_evaluate/results/{repo}"
         if not os.path.exists(path):
             os.makedirs(path)
         create_grade_file(grades, repo, BUILD_TOOLS[repo])

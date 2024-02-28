@@ -167,10 +167,10 @@ def gradle_build_failure(repo: str, standard_error: str) -> None:
     :return: None
     """
     print(f"[WARNING] {repo} BUILD FAILED. More info in results")
-    path = f"./results/{repo}"
+    path = f"./repo_evaluate/results/{repo}"
     if not os.path.exists(path):
         os.makedirs(path)
-    with open(f"./results/{repo}/gradle_build_failure_info.txt", 'w+') as fp:
+    with open(f"./repo_evaluate/results/{repo}/gradle_build_failure_info.txt", 'w+') as fp:
         fp.write(repo)
         fp.write("\n\n[WARNING] Build failed:")
         fp.write("\n")
