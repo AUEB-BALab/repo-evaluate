@@ -73,7 +73,7 @@ def create_grade_file(grade_dict: dict[str, float], repo: str, build: str) -> No
     if total > TOP_MARK:
         total = TOP_MARK
 
-    with open(f"./results/{repo}/results.txt", 'w+') as fp:
+    with open(f"./repo_evaluate/results/{repo}/results.txt", 'w+') as fp:
         fp.write(repo)
         fp.write("\nGrades:")
         for module in TOP_MODULES:
