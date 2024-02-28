@@ -18,7 +18,7 @@ This is a Python application that evaluates the quality of work done in specifie
     * Travis CI, GitHub Actions or Circle CI
 - Modularity
 
-#### It will also evaluate as a bonus:
+#### It will also as a bonus evaluate :
 
 * LICENCE file existence
 * CONTRIBUTING file existence
@@ -32,14 +32,27 @@ This is a Python application that evaluates the quality of work done in specifie
 * The number of commits
 
 #### CSV:
+
 - Raw data from all the evaluation will be output to a `.CSV` file which can be used for visualisation and grading
+
+#### Building:
+
+- This project uses [Python Poetry](https://python-poetry.org/) for dependancy maangment whilts including a poetry.lock file
+- There are 2 ways you can build the project:
+  1) Using Poetry
+     - Run `poetry install`
+  2) Using pip (PEP-517)
+     - Run `pip install -e`
+     - _Keep in mind that pip will not use the lock file to determine dependency versions, therefore issues with newer versions may surface. Also, no run instructions will be given bellow. You are on your own_
+
 
 #### Usage:
 
-1) In `resources/GitHub Repositories.txt`  place the repositories you want to evaluate
-2) Tweak the constants in `constants.py` to your liking
-3) Run `main.py`
-4) Results are outputted to the `./results` folder
+1) In `repo_evaluate/resources/GitHub Repositories.txt`  place the repositories you want to evaluate. Each on a new line.
+2) Tweak the constants in `repo_evaluate/resources/constants.py` to your liking
+3) Run `poetry run python .\repo_evaluate\main.py`
+    * _Replace python with your python installation name if it differs_
+4) Results are outputted to the `repo_evaluate/results` folder
 
 #### Requirements
 
@@ -47,6 +60,7 @@ This is a Python application that evaluates the quality of work done in specifie
   API limit pretty fast
 - PowerShell is used and must be installed (by default It's available on Windows)
 - Gradle must be installed in order to evaluate Gradle builds
+  - The last 2 requirements are optional, if ignored Gradle and Kotlin builds will just always fail
 
 #### Contributing:
 
