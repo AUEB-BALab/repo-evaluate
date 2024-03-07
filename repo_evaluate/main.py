@@ -1,4 +1,6 @@
 import os
+import sys
+import shutil
 
 from github import Github
 
@@ -28,8 +30,58 @@ def get_repo_addresses(file_location: str) -> list[str]:
     return contents.splitlines()
 
 
+def copy_results_to_destination(destination_folder, source_folder="./repo_evaluate/results/"):
+    """
+    Copies a folder and all its subfolders and contents to a new directory.
+    """
+    try:
+        # Check if the destination folder exists, if not, create it
+        if not os.path.exists(destination_folder):
+            os.makedirs(destination_folder)
+
+        # Walk through the source folder and copy files and sub-folders to the destination folder
+        for root, dirs, files in os.walk(source_folder):
+            for directory in dirs:
+                source_dir = os.path.join(root, directory)
+                destination_dir = os.path.join(destination_folder, os.path.relpath(source_dir, source_folder))
+                if not os.path.exists(destination_dir):
+                    os.makedirs(destination_dir)
+            for file in files:
+                source_file = os.path.join(root, file)
+                destination_file = os.path.join(destination_folder, os.path.relpath(source_file, source_folder))
+                shutil.copy2(source_file, destination_file)
+
+    except Exception as e:
+        print("[ERROR] Something went wrong with result finalization. You can navigate to the "
+              "result folder in the installation path to get the results manually")
+
+
+def delete_result_folder_contents():
+    """
+    Deletes all files and subfolders within results exept .gitkeep.
+
+    """
+
+    try:
+        # Iterate over all the files and subfolders in the folder
+        for root, dirs, files in os.walk("./repo_evaluate/results/", topdown=False):
+            for file_name in files:
+                file_path = os.path.join(root, file_name)
+                # Check if the file has a .pdf extension
+                if not file_name.lower().endswith('.gitkeep'):
+                    # Delete the file
+                    os.remove(file_path)
+            for dir_name in dirs:
+                dir_path = os.path.join(root, dir_name)
+                # Delete the subfolder
+                os.rmdir(dir_path)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
 if __name__ == '__main__':
-    repos = get_repo_addresses("repo_evaluate/resources/GitHub Repositories.txt")
+    delete_result_folder_contents()
+    repos = get_repo_addresses(sys.argv[1])
     print("[INFO] Scraping GitHub. This might take some time!")
     print("[INFO]   Progress: 0%")
     grades = initialise_grade_dictionary(repos)
@@ -253,3 +305,6 @@ if __name__ == '__main__':
         if not os.path.exists(path):
             os.makedirs(path)
         create_grade_file(grades, repo, BUILD_TOOLS[repo])
+
+    print("[INFO] Finalizing Results")
+    copy_results_to_destination(sys.argv[2])
