@@ -37,8 +37,8 @@ This is a Python application that evaluates the quality of work done in the spec
 
 ### Building:
 
-- This project uses [Python Poetry](https://python-poetry.org/) for dependency management whilst including a poetry.lock file
-- There are 2 ways you can build the project:
+- This project uses [Python Poetry](https://python-poetry.org/) for dependency management wilts including a poetry.lock file
+- There are two ways you can build the project:
   1) Using Poetry
      - Run `poetry install`
   2) Using pip (PEP-517)
