@@ -123,5 +123,9 @@ def commenting_ok(stats_dict: dict[str, int]) -> (bool, bool):
     except ZeroDivisionError:  # This means the class doesn't have any methods. Most likely deals with graphics
         comments_per_method_ok = True
 
-    comments_per_line_ok = stats_dict['NUMBER_OF_COMMENTS'] / stats_dict['NUMBER_OF_LINES'] > 1 / LINES_PER_COMMENT
+    try:
+        comments_per_line_ok = stats_dict['NUMBER_OF_COMMENTS'] / stats_dict['NUMBER_OF_LINES'] > 1 / LINES_PER_COMMENT
+    except ZeroDivisionError:  # This means the class doesn't have any methods. Most likely deals with graphics
+        comments_per_line_ok = True
+
     return comments_per_method_ok, comments_per_line_ok
