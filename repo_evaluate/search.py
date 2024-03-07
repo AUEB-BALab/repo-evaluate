@@ -56,7 +56,10 @@ def search_name_contains_return_file(name_contains: str, name_doesnt_contain: st
                 files.update(search_directory(content.path))
             elif name_contains in content.name and name_doesnt_contain not in content.name:
                 # get the name and contents
-                files[content.name] = content.decoded_content.decode('utf-8')
+                try:
+                    files[content.name] = content.decoded_content.decode('utf-8')
+                except AssertionError:
+                    files[content.name] = ''
         return files
 
     return search_directory('')
