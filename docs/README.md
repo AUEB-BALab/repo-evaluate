@@ -48,7 +48,7 @@ This is a Python application that evaluates the quality of work done in the spec
 
 ### Usage:
 
-1) Optionally tweak the constants in `repo_evaluate\resources\constants.py` to your liking
+1) Optionally tweak the constants in `repo_evaluate\constants.py` to your liking
 2) Run `poetry run python .\repo_evaluate\main.py <repository.txt> <output\directory>`
     * _Replace python with your python installation name if it differs_
     * _`repository.txt` should contain the repositories for evaluation each on a new line. Check `test_repositories.txt` for an example_
