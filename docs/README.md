@@ -48,11 +48,11 @@ This is a Python application that evaluates the quality of work done in the spec
 
 ### Usage:
 
-1) In `repo_evaluate/resources/GitHub Repositories.txt`  place the repositories you want to evaluate. Each on a new line.
-2) Tweak the constants in `repo_evaluate/resources/constants.py` to your liking
-3) Run `poetry run python .\repo_evaluate\main.py`
+1) Optionally tweak the constants in `repo_evaluate\resources\constants.py` to your liking
+2) Run `poetry run python .\repo_evaluate\main.py <repository.txt> <output\directory>`
     * _Replace python with your python installation name if it differs_
-4) Results are outputted to the `repo_evaluate/results` folder
+    * _`repository.txt` should contain the repositories for evaluation each on a new line. Check `test_repositories.txt` for an example_
+    * _`output\directory` should point to where you want the results stored_
 
 ### Requirements
 
