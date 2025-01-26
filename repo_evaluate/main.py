@@ -26,8 +26,8 @@ def get_repo_addresses(file_location: str) -> list[str]:
     :return: Repository addresses in a list formatted as ['author1/name1', 'author2/name2'...]
     """
     with open(file_location) as fp:
-        contents = fp.read()
-    return contents.splitlines()
+        lines = fp.readlines()
+    return [line.replace('.git', '') for line in lines]
 
 
 def copy_results_to_destination(destination_folder, source_folder="./repo_evaluate/results/"):
