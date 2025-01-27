@@ -4,7 +4,7 @@ This module deals with evaluating CI usage
 import os
 
 from github import Github
-from github.GithubException import UnknownObjectException
+from github.GithubException import UnknownObjectException, GithubException
 
 import search
 
@@ -42,11 +42,11 @@ def repo_uses_ci(repo_address: str) -> bool:
     try:
         repo.get_contents('.travis.yml')  # we check for Travis CI file
         return True
-    except UnknownObjectException:
+    except (UnknownObjectException, GithubException):
         try:
             repo.get_contents('circleci/config.yml')  # we check for a Circle CI file
             return True
-        except UnknownObjectException:
+        except (UnknownObjectException, GithubException):
             if repo_uses_actions(repo_address):  # we look for use of GitHub Actions
                 return True
             elif bool(search.search_name_contains_return_file('.yml', '',

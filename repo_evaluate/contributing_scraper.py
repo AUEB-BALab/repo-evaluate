@@ -4,7 +4,7 @@ This module defines all methods which deal with the contributing files
 import os
 
 from github import Github
-from github.GithubException import UnknownObjectException
+from github.GithubException import UnknownObjectException, GithubException
 
 from api import get_github_instance
 
@@ -27,7 +27,7 @@ def get_contributing_files(repo_addresses: list[str]) -> dict[str, str]:
         try:
             contributing_contents = repo.get_contents("CONTRIBUTING.md").decoded_content.decode(
                 'utf-8')  # decode to utf-8
-        except UnknownObjectException:
+        except (UnknownObjectException, GithubException):
             contributing_contents = None
         contributing_files[address] = contributing_contents
     return contributing_files

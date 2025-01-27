@@ -5,7 +5,7 @@ import os
 import re
 
 from github import Github
-from github.GithubException import UnknownObjectException
+from github.GithubException import UnknownObjectException, GithubException
 
 from api import get_github_instance
 
@@ -24,7 +24,7 @@ def get_decoded_readmes(repo_addresses: list[str]) -> dict[str, str]:
         repo = g.get_repo(address)
         try:
             readme_contents = repo.get_readme().decoded_content.decode('utf-8')  # decode to uts-8
-        except UnknownObjectException:
+        except (UnknownObjectException, GithubException):
             readme_contents = None
         readmes[address] = readme_contents
     return readmes
@@ -50,7 +50,7 @@ def get_raw_readmes(repo_addresses):
             readme_contents = re.sub(r'!\[.*\]\(.*\)', '', readme_contents)
             # remove Markdown headings
             readme_contents = re.sub(r'^#.*', '', readme_contents, flags=re.MULTILINE)
-        except UnknownObjectException:
+        except (UnknownObjectException, GithubException):
             readme_contents = None
         readmes[address] = readme_contents
     return readmes

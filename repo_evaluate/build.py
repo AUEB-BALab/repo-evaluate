@@ -6,7 +6,7 @@ import subprocess
 import re
 
 from github import Github
-from github.GithubException import UnknownObjectException
+from github.GithubException import UnknownObjectException, GithubException
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 
@@ -33,19 +33,19 @@ def get_a_build_file(repo_address):
         packaging_file = repo.get_contents("pom.xml")
         packaging_type = "Maven"
         return (packaging_file, packaging_type)
-    except UnknownObjectException:  # build is not Maven
+    except (UnknownObjectException, GithubException):  # build is not Maven
         try:
             # If the build is Gradle /w Groovy this will not throw an exception
             packaging_file = repo.get_contents("build.gradle")
             packaging_type = "Gradle - Groovy"
             return (packaging_file, packaging_type)
-        except UnknownObjectException:  # build is not Gradle /w Groovy or Maven
+        except (UnknownObjectException, GithubException):  # build is not Gradle /w Groovy or Maven
             # If the build is Gradle /w Kotlin this will not throw an exception
             try:
                 packaging_file = repo.get_contents("build.gradle.kts")
                 packaging_type = "Gradle - Kotlin"
                 return (packaging_file, packaging_type)
-            except UnknownObjectException:  # build is not Gradle or Maven
+            except (UnknownObjectException, GithubException):  # build is not Gradle or Maven
                 pass  # We now move on to look for the file everywhere in the repository
 
     # If the build is Maven this will return a file

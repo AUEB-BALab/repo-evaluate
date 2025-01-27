@@ -4,7 +4,7 @@ This module defines all methods which deal with the licence file
 import os
 
 from github import Github
-from github.GithubException import UnknownObjectException
+from github.GithubException import UnknownObjectException, GithubException
 
 from api import get_github_instance
 
@@ -26,7 +26,7 @@ def get_licence_files(repo_addresses: list[str]) -> dict[str, str]:
         repo = g.get_repo(address)
         try:
             licence_contents = repo.get_license().decoded_content.decode('utf-8')  # decode to utf-8
-        except UnknownObjectException:
+        except (UnknownObjectException, GithubException):
             licence_contents = None
         licence_files[address] = licence_contents
     return licence_files
