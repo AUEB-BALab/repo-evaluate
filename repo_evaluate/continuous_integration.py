@@ -8,7 +8,9 @@ from github.GithubException import UnknownObjectException
 
 import search
 
-g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
+from api import get_github_instance
+
+g = get_github_instance()
 
 
 def repos_use_ci(repo_addresses: list[str]) -> dict[str, bool]:

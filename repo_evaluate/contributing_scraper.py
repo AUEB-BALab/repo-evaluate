@@ -6,7 +6,10 @@ import os
 from github import Github
 from github.GithubException import UnknownObjectException
 
-g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
+from api import get_github_instance
+
+g = get_github_instance()
+
 
 
 def get_contributing_files(repo_addresses: list[str]) -> dict[str, str]:

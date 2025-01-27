@@ -10,7 +10,10 @@ from github import Github
 
 from constants import *
 
-g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
+from api import get_github_instance
+
+g = get_github_instance()
+
 
 
 def repo_uses_issues(repo_address: str) -> bool:

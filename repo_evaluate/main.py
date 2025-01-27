@@ -2,7 +2,7 @@ import os
 import sys
 import shutil
 
-from github import Github
+from github import Github, enable_console_debug_logging
 
 import continuous_integration
 import csvcreator
@@ -15,7 +15,9 @@ import build
 import code_quality
 from grades import *
 
-g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
+from api import get_github_instance
+
+g = get_github_instance()
 
 
 def get_repo_addresses(file_location: str) -> list[str]:
@@ -80,6 +82,7 @@ def delete_result_folder_contents():
 
 
 if __name__ == '__main__':
+    # enable_console_debug_logging() 
     delete_result_folder_contents()
     repos = get_repo_addresses(sys.argv[1])
     print("[INFO] Scraping GitHub. This might take some time!")
