@@ -29,7 +29,7 @@ def get_repo_addresses(file_location: str) -> list[str]:
     """
     with open(file_location) as fp:
         lines = fp.readlines()
-    return [line.replace('.git', '') for line in lines]
+    return [line.replace('.git', '').strip() for line in lines]
 
 
 def copy_results_to_destination(destination_folder, source_folder="./repo_evaluate/results/"):
