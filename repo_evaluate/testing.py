@@ -8,7 +8,7 @@ import search
 
 from github import Github
 
-g = Github(os.environ['GITHUB_GPG_KEY'])
+g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
 
 
 def get_java_file_names_from_repo(repo_addresses: list[str]) -> dict[str, dict[str, int]]:

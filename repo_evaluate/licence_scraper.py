@@ -6,7 +6,7 @@ import os
 from github import Github
 from github.GithubException import UnknownObjectException
 
-g = Github(os.environ['GITHUB_GPG_KEY'])
+g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
 
 
 # Method gets licence file from git and decodes it

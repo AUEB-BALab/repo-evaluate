@@ -56,7 +56,7 @@ This is a Python application that evaluates the quality of work done in the spec
 
 ### Requirements
 
-- You must have an environmental variable `GITHUB_GPG_KEY` with your [GitHub Pesonal Acess Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) otherwise you will hit the GitHub
+- You must have an environmental variable `GITHUB_ACCESS_TOKEN` with your [GitHub Pesonal Acess Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) otherwise you will hit the GitHub
   API limit pretty fast
 - PowerShell is used and must be installed (by default It's available on Windows)
 - Gradle must be installed in order to evaluate Gradle builds

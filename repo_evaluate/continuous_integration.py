@@ -8,7 +8,7 @@ from github.GithubException import UnknownObjectException
 
 import search
 
-g = Github(os.environ['GITHUB_GPG_KEY'])
+g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
 
 
 def repos_use_ci(repo_addresses: list[str]) -> dict[str, bool]:
@@ -72,7 +72,7 @@ def repo_uses_actions(repo_address: str) -> bool:
 
     # Set the GitHub API endpoint
     restful_endpoint = f'https://api.github.com/repos/{repo_address}/actions/runs'
-    response = requests.get(restful_endpoint, headers={'Authorization': 'Bearer ' + os.environ['GITHUB_GPG_KEY']})
+    response = requests.get(restful_endpoint, headers={'Authorization': 'Bearer ' + os.environ["GITHUB_ACCESS_TOKEN"]})
     try:
         total_actions_count = json.loads(response.text)['total_count']
     except KeyError:

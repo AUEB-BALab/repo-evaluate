@@ -10,7 +10,7 @@ from github import Github
 
 from constants import *
 
-g = Github(os.environ['GITHUB_GPG_KEY'])
+g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
 
 
 def repo_uses_issues(repo_address: str) -> bool:

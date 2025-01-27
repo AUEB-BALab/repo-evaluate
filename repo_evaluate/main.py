@@ -15,7 +15,7 @@ import build
 import code_quality
 from grades import *
 
-g = Github(os.environ['GITHUB_GPG_KEY'])
+g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
 
 
 def get_repo_addresses(file_location: str) -> list[str]:

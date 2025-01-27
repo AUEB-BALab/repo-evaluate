@@ -12,7 +12,7 @@ from lxml.etree import XMLSyntaxError
 
 from search import search_name_matches
 
-g = Github(os.environ['GITHUB_GPG_KEY'])
+g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
 
 
 def get_a_build_file(repo_address):

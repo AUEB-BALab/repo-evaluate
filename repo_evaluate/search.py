@@ -5,7 +5,7 @@ import os
 
 from github import Github
 
-g = Github(os.environ['GITHUB_GPG_KEY'])
+g = Github(os.environ["GITHUB_ACCESS_TOKEN"])
 
 
 def search_name_contains_return_size(name_contains: str, repo) -> dict[str, int]:
