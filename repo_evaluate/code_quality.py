@@ -18,7 +18,7 @@ def count_methods(contents: str) -> int:
     """
     try:
         tree = javalang.parse.parse(contents)
-    except javalang.parser.JavaSyntaxError:
+    except (javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
         return 0
     method_count = 0
     for path, node in tree:
